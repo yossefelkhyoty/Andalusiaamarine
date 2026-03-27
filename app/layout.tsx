@@ -1,9 +1,24 @@
+/**
+ * ANDALUSIA MARINE - ROOT LAYOUT V2 (Deployment Ready)
+ * Optimized Font Loading with Swap Display for Vercel Builds.
+ */
+
 import type { Metadata } from "next";
-import { Inter, Outfit, Alexandria } from "next/font/google";
+import { Outfit, Alexandria } from "next/font/google";
 import "./globals.css";
 
-const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "700", "900"] });
-const alexandria = Alexandria({ subsets: ["arabic"], weight: ["400", "700", "900"] });
+// OPTIMIZED FOR STABLE DEPLOYMENT
+const outfit = Outfit({ 
+  subsets: ["latin"], 
+  weight: ["300", "400", "700", "900"],
+  display: 'swap' // Stable loading trick
+});
+
+const alexandria = Alexandria({ 
+  subsets: ["arabic"], 
+  weight: ["400", "700", "900"],
+  display: 'swap' // Stable loading trick
+});
 
 export const metadata: Metadata = {
   title: "Andalusia Marine | Industrial Excellence",
