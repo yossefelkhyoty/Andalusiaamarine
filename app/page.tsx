@@ -47,14 +47,14 @@ export default function Home() {
           </div>
           
           <div className="flex items-center gap-10">
-            <div className="hidden lg:flex gap-10 font-bold uppercase text-[10px] tracking-widest text-slate-800 dark:text-slate-200">
+            <div className="hidden lg:flex gap-10 font-bold uppercase text-sm tracking-widest text-slate-800 dark:text-slate-200">
                 <a href="#services" className="hover:text-amber-600 transition-colors uppercase">{t('Services', 'خدماتنا')}</a>
                 <a href="#portfolio" className="hover:text-amber-600 transition-colors uppercase">{t('Portfolio', 'المعرض')}</a>
                 <a href="#why-us" className="hover:text-amber-600 transition-colors uppercase">{t('Why Us', 'لماذا نحن')}</a>
                 <a href="#contact" className="hover:text-amber-600 transition-colors uppercase">{t('Contact', 'تواصل')}</a>
             </div>
             <div className="flex items-center gap-4">
-               <button onClick={() => setLang(lang === 'en' ? 'ar' : 'en')} className="bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-full text-[10px] font-black border border-slate-200 dark:border-slate-700 hover:border-amber-600 transition-all dark:text-white">{lang.toUpperCase()}</button>
+               <button onClick={() => setLang(lang === 'en' ? 'ar' : 'en')} className="bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-full text-sm font-black border border-slate-200 dark:border-slate-700 hover:border-amber-600 transition-all dark:text-white">{lang.toUpperCase()}</button>
                <button onClick={() => setIsDark(!isDark)} className="p-3 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-all hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-950 dark:text-white">
                   {isDark ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5" />}
                </button>
@@ -128,7 +128,7 @@ export default function Home() {
                  <button 
                    key={cat}
                    onClick={() => setFilter(cat)}
-                   className={`px-10 py-5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${filter === cat ? 'bg-amber-600 text-white shadow-xl scale-105' : 'text-slate-500 hover:text-amber-600'}`}>
+                   className={`px-10 py-5 rounded-full text-sm font-black uppercase tracking-widest transition-all ${filter === cat ? 'bg-amber-600 text-white shadow-xl scale-105' : 'text-slate-500 hover:text-amber-600'}`}>
                    {t(cat.toUpperCase(), cat === 'ships' ? 'السفن' : cat === 'engines' ? 'المحركات بحرية' : cat === 'propulsion' ? 'أنظمة الدفع و المخفضات' : 'الصيانة و قطع الغيار')}
                  </button>
                ))}
@@ -194,7 +194,7 @@ export default function Home() {
                <div className="space-y-12 italic">
                   <div className="flex items-start gap-8 group">
                      <div className="w-16 h-16 bg-amber-600 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110"><Mail className="w-7 h-7" /></div>
-                     <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{t('EMAIL US', 'راسلنا مباشرة')}</p><a href="mailto:aymanarfa@andulisaamarina.com" className="text-2xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all font-sans italic">aymanarfa@andulisaamarina.com</a></div>
+                     <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{t('EMAIL US', 'راسلنا مباشرة')}</p><a href="mailto:aymanarfa@andulisaamarina.com" className="text-base md:text-2xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all font-sans italic break-all">aymanarfa@andulisaamarina.com</a></div>
                   </div>
                   <div className="flex items-start gap-8 group">
                      <div className="w-16 h-16 bg-slate-950 dark:bg-white text-white dark:text-slate-950 rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110"><Phone className="w-7 h-7" /></div>
