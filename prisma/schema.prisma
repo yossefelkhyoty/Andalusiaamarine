@@ -1,0 +1,34 @@
+// ANDALUSIA MARINE - DB SCHEMA V1.2 (Stable 6.3)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL") // classic and direct
+}
+
+model Project {
+  id              Int      @id @default(autoincrement())
+  category        String   // ships, engines, propulsion, maintenance
+  isHidden        Boolean  @default(false)
+  
+  // Titles (English & Arabic)
+  title_en        String
+  title_ar        String
+  
+  // Secondary Labels
+  orange_label_en String?
+  orange_label_ar String?
+  
+  // Descriptions
+  desc_en         String?
+  desc_ar         String?
+  
+  // Media Support (Images/Videos)
+  media_path      String   // Path or URL
+  media_type      String   @default("image") // 'image' or 'video'
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
