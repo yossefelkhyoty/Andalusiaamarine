@@ -1,28 +1,36 @@
 /**
- * ANDALUSIA MARINE - V5.0 (Vercel Live Version)
- * POWERED BY VERCEL POSTGRES + PRISMA API
+ * ANDALUSIA MARINE - V5.1 (Vercel Live Production Fix)
+ * AUTO-SYNC WITH NEON POSTGRES + ALL CATEGORIES DEFAULT
  */
 
 "use client"
 import React, { useState, useEffect } from 'react'
-import { Anchor, Settings, Layout, Phone, Facebook, Sun, Moon, Mail, Send as SendIcon, CheckCircle, Shield, Zap, Wrench, ArrowRight as LucideArrowRight, Ship, Compass } from 'lucide-react'
+import { Anchor, Settings, Layout, Phone, Facebook, Sun, Moon, Mail, Send as SendIcon, CheckCircle, Shield, Zap, Wrench, ArrowRight as LucideArrowRight, Ship, Compass, Loader2 } from 'lucide-react'
 
 export default function Home() {
   const [lang, setLang] = useState('ar')
-  const [filter, setFilter] = useState('ships')
+  const [filter, setFilter] = useState('all') // Changed to 'all' for instant visibility
   const [isDark, setIsDark] = useState(false)
   const [items, setItems] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
   const t = (en: string, ar: string) => (lang === 'en' ? en : ar)
 
   // FETCH LIVE DATA FROM VERCEL POSTGRES
   useEffect(() => {
+    setLoading(true)
     fetch('/api/projects')
       .then(res => res.json())
       .then(data => {
-        if (!data.error) setItems(data)
+        if (!data.error) {
+            setItems(data)
+        }
+        setLoading(false)
       })
-      .catch(err => console.error('DB Sync Offline'))
+      .catch(err => {
+        console.error('DB Sync Offline')
+        setLoading(false)
+      })
   }, [])
 
   return (
@@ -116,32 +124,39 @@ export default function Home() {
             <h5 className="text-4xl md:text-7xl font-black uppercase text-slate-950 dark:text-white tracking-tighter mb-16 italic">{t('Projects', 'مشاريعنا')}</h5>
             
             <div className="flex flex-wrap justify-center gap-3 p-3 bg-white dark:bg-slate-800 rounded-full max-w-fit mx-auto border border-slate-200 dark:border-slate-700 shadow-inner mb-24 transition-all">
-               {['ships', 'engines', 'propulsion', 'maintenance'].map((cat) => (
+               {['all', 'ships', 'engines', 'propulsion', 'maintenance'].map((cat) => (
                  <button 
                    key={cat}
                    onClick={() => setFilter(cat)}
                    className={`px-10 py-5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${filter === cat ? 'bg-amber-600 text-white shadow-xl scale-105' : 'text-slate-500 hover:text-amber-600'}`}>
-                   {t(cat.toUpperCase(), cat === 'ships' ? 'السفن' : cat === 'engines' ? 'المحركات بحرية' : cat === 'propulsion' ? 'أنظمة الدفع و المخفضات' : 'الصيانة و قطع الغيار')}
+                   {t(cat.toUpperCase(), cat==='all'? 'الكل' : cat === 'ships' ? 'السفن' : cat === 'engines' ? 'المحركات بحرية' : cat === 'propulsion' ? 'أنظمة الدفع و المخفضات' : 'الصيانة و قطع الغيار')}
                  </button>
                ))}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 transition-all">
-               {items.filter(item => item.category === filter && !item.isHidden).map(item => (
-                 <div key={item.id} className="group relative aspect-[4/5] overflow-hidden rounded-[4rem] shadow-2xl bg-slate-200 border border-slate-100 dark:border-slate-800 transition-all">
-                    <img src={item.media_path} className="w-full h-full object-cover transition-all duration-[2s] group-hover:scale-110" alt={item.title_en} />
-                    <div className="absolute inset-0 bg-slate-950/90 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-12 text-left rtl:text-right transform translate-y-8 group-hover:translate-y-0">
-                       <span className="text-amber-600 font-black text-xs uppercase tracking-[0.3em] mb-4">{t(item.orange_label_en, item.orange_label_ar)}</span>
-                       <h6 className="text-2xl md:text-3xl font-black text-white uppercase leading-tight mb-4 tracking-tight">{t(item.title_en, item.title_ar)}</h6>
-                       <p className="text-slate-400 font-bold text-sm tracking-wide opacity-80">{t(item.desc_en, item.desc_ar)}</p>
-                    </div>
-                 </div>
-               ))}
-            </div>
+            {loading ? (
+                <div className="flex flex-col items-center justify-center py-24 gap-4 animate-pulse">
+                    <Loader2 className="w-12 h-12 text-amber-600 animate-spin" />
+                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">{t('Loading Projects...', 'جارِ تحميل المشاريع...')}</p>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 transition-all">
+                   {items.filter(item => (filter === 'all' || item.category === filter) && !item.isHidden).map(item => (
+                     <div key={item.id} className="group relative aspect-[4/5] overflow-hidden rounded-[4rem] shadow-2xl bg-slate-200 border border-slate-100 dark:border-slate-800 transition-all">
+                        <img src={item.media_path} className="w-full h-full object-cover transition-all duration-[2s] group-hover:scale-110" alt={item.title_en} />
+                        <div className="absolute inset-0 bg-slate-950/90 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-12 text-left rtl:text-right transform translate-y-8 group-hover:translate-y-0">
+                           <span className="text-amber-600 font-black text-xs uppercase tracking-[0.3em] mb-4">{t(item.orange_label_en, item.orange_label_ar)}</span>
+                           <h6 className="text-2xl md:text-3xl font-black text-white uppercase leading-tight mb-4 tracking-tight">{t(item.title_en, item.title_ar)}</h6>
+                           <p className="text-slate-400 font-bold text-sm tracking-wide opacity-80">{t(item.desc_en, item.desc_ar)}</p>
+                        </div>
+                     </div>
+                   ))}
+                </div>
+            )}
          </div>
       </section>
 
-      {/* SECTION 3 & 4 (WHY US + CONTACT) maintained below... */}
+      {/* WHY US + CONTACT sections maintained... */}
       <section id="why-us" className="py-24 bg-white dark:bg-slate-950 transition-colors italic">
          <div className="max-w-7xl mx-auto px-6 text-center italic">
             <h4 className="text-amber-600 font-black uppercase tracking-[0.4em] text-xs mb-4">{t('STANDARDS', 'معايير الأندلس')}</h4>
@@ -212,8 +227,4 @@ export default function Home() {
       </footer>
     </div>
   )
-}
-
-function ArrowRight({ className }: { className: string }) {
-   return <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
 }
