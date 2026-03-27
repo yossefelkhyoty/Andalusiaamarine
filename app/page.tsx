@@ -1,30 +1,27 @@
 /**
- * ANDALUSIA MARINE - V5.2 (Clean UI Version)
- * REMOVED 'ALL' FILTER + SHIPS AS DEFAULT
+ * ANDALUSIA MARINE - V5.4 (WhatsApp Integrated)
+ * ADDED DIRECT WHATSAPP LINK NEXT TO PHONE
  */
 
 "use client"
 import React, { useState, useEffect } from 'react'
-import { Anchor, Settings, Layout, Phone, Facebook, Sun, Moon, Mail, Send as SendIcon, CheckCircle, Shield, Zap, Wrench, ArrowRight as LucideArrowRight, Ship, Compass, Loader2 } from 'lucide-react'
+import { Anchor, Settings, Layout, Phone, Facebook, Sun, Moon, Mail, Send as SendIcon, CheckCircle, Shield, Zap, Wrench, ArrowRight as LucideArrowRight, Ship, Compass, Loader2, MessageCircle } from 'lucide-react'
 
 export default function Home() {
   const [lang, setLang] = useState('ar')
-  const [filter, setFilter] = useState('ships') // Back to 'ships' as default
+  const [filter, setFilter] = useState('ships')
   const [isDark, setIsDark] = useState(false)
   const [items, setItems] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
   const t = (en: string, ar: string) => (lang === 'en' ? en : ar)
 
-  // FETCH LIVE DATA FROM VERCEL POSTGRES
   useEffect(() => {
     setLoading(true)
     fetch('/api/projects')
       .then(res => res.json())
       .then(data => {
-        if (!data.error) {
-            setItems(data)
-        }
+        if (!data.error) setItems(data)
         setLoading(false)
       })
       .catch(err => {
@@ -47,14 +44,14 @@ export default function Home() {
           </div>
           
           <div className="flex items-center gap-10">
-            <div className="hidden lg:flex gap-10 font-bold uppercase text-sm tracking-widest text-slate-800 dark:text-slate-200">
+            <div className="hidden lg:flex gap-10 font-bold uppercase text-[10px] tracking-widest text-slate-800 dark:text-slate-200">
                 <a href="#services" className="hover:text-amber-600 transition-colors uppercase">{t('Services', 'خدماتنا')}</a>
                 <a href="#portfolio" className="hover:text-amber-600 transition-colors uppercase">{t('Portfolio', 'المعرض')}</a>
                 <a href="#why-us" className="hover:text-amber-600 transition-colors uppercase">{t('Why Us', 'لماذا نحن')}</a>
                 <a href="#contact" className="hover:text-amber-600 transition-colors uppercase">{t('Contact', 'تواصل')}</a>
             </div>
             <div className="flex items-center gap-4">
-               <button onClick={() => setLang(lang === 'en' ? 'ar' : 'en')} className="bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-full text-sm font-black border border-slate-200 dark:border-slate-700 hover:border-amber-600 transition-all dark:text-white">{lang.toUpperCase()}</button>
+               <button onClick={() => setLang(lang === 'en' ? 'ar' : 'en')} className="bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-full text-[10px] font-black border border-slate-200 dark:border-slate-700 hover:border-amber-600 transition-all dark:text-white">{lang.toUpperCase()}</button>
                <button onClick={() => setIsDark(!isDark)} className="p-3 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-all hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-950 dark:text-white">
                   {isDark ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5" />}
                </button>
@@ -86,12 +83,11 @@ export default function Home() {
         </div>
       </header>
 
-      {/* SECTION 1: SERVICES */}
+      {/* SERVICES */}
       <section id="services" className="py-24 bg-white dark:bg-slate-950 transition-colors">
          <div className="max-w-7xl mx-auto px-6 text-center italic">
             <h4 className="text-amber-600 font-black uppercase tracking-[0.4em] text-xs mb-4">{t('CORE SOLUTIONS', 'ماذا نقدم')}</h4>
             <h5 className="text-4xl md:text-6xl font-black uppercase text-slate-950 dark:text-white tracking-tighter mb-20 italic">{t('Services', 'خدماتنا المتميزة')}</h5>
-            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                <div className="p-16 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[3.5rem] text-left rtl:text-right group hover:bg-amber-600 hover:border-amber-600 transition-all shadow-sm">
                   <Settings className="w-16 h-16 text-amber-600 group-hover:text-white mb-10 transition-colors" />
@@ -117,28 +113,24 @@ export default function Home() {
          </div>
       </section>
 
-      {/* SECTION 2: PORTFOLIO */}
+      {/* PORTFOLIO */}
       <section id="portfolio" className="py-24 bg-slate-50 dark:bg-slate-900 transition-colors">
          <div className="max-w-7xl mx-auto px-6 text-center italic">
             <h4 className="text-amber-600 font-black uppercase tracking-[0.4em] text-xs mb-4">{t('TECHNICAL PORTFOLIO', 'معرض الأعمال')}</h4>
             <h5 className="text-4xl md:text-7xl font-black uppercase text-slate-950 dark:text-white tracking-tighter mb-16 italic">{t('Projects', 'مشاريعنا')}</h5>
-            
             <div className="flex flex-wrap justify-center gap-3 p-3 bg-white dark:bg-slate-800 rounded-full max-w-fit mx-auto border border-slate-200 dark:border-slate-700 shadow-inner mb-24 transition-all">
                {['ships', 'engines', 'propulsion', 'maintenance'].map((cat) => (
                  <button 
                    key={cat}
                    onClick={() => setFilter(cat)}
-                   className={`px-10 py-5 rounded-full text-sm font-black uppercase tracking-widest transition-all ${filter === cat ? 'bg-amber-600 text-white shadow-xl scale-105' : 'text-slate-500 hover:text-amber-600'}`}>
+                   className={`px-10 py-5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${filter === cat ? 'bg-amber-600 text-white shadow-xl scale-105' : 'text-slate-500 hover:text-amber-600'}`}>
                    {t(cat.toUpperCase(), cat === 'ships' ? 'السفن' : cat === 'engines' ? 'المحركات بحرية' : cat === 'propulsion' ? 'أنظمة الدفع و المخفضات' : 'الصيانة و قطع الغيار')}
                  </button>
                ))}
             </div>
 
             {loading ? (
-                <div className="flex flex-col items-center justify-center py-24 gap-4 animate-pulse">
-                    <Loader2 className="w-12 h-12 text-amber-600 animate-spin" />
-                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">{t('Loading Projects...', 'جارِ تحميل المشاريع...')}</p>
-                </div>
+                <div className="flex flex-col items-center justify-center py-24 gap-4 animate-pulse"><Loader2 className="w-12 h-12 text-amber-600 animate-spin" /><p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">{t('Loading Projects...', 'جارِ تحميل المشاريع...')}</p></div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 transition-all">
                    {items.filter(item => item.category === filter && !item.isHidden).map(item => (
@@ -156,7 +148,7 @@ export default function Home() {
          </div>
       </section>
 
-      {/* WHY US + CONTACT sections maintained... */}
+      {/* WHY US + CONTACT */}
       <section id="why-us" className="py-24 bg-white dark:bg-slate-950 transition-colors italic">
          <div className="max-w-7xl mx-auto px-6 text-center italic">
             <h4 className="text-amber-600 font-black uppercase tracking-[0.4em] text-xs mb-4">{t('STANDARDS', 'معايير الأندلس')}</h4>
@@ -191,19 +183,41 @@ export default function Home() {
             <div className="text-left rtl:text-right italic">
                <h6 className="text-[10px] font-black uppercase tracking-[0.5em] text-amber-600 mb-8 italic">{t('PARTNERSHIP', 'شراكة النجاح')}</h6>
                <h5 className="text-5xl md:text-[6rem] font-black text-slate-950 dark:text-white leading-[0.85] tracking-tighter uppercase mb-16 italic">{t('START YOUR\nJOURNEY', 'ابدأ\nرحلتك')}</h5>
-               <div className="space-y-12 italic">
+               <div className="space-y-8 italic">
                   <div className="flex items-start gap-8 group">
                      <div className="w-16 h-16 bg-amber-600 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110"><Mail className="w-7 h-7" /></div>
-                     <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{t('EMAIL US', 'راسلنا مباشرة')}</p><a href="mailto:aymanarfa@andulisaamarina.com" className="text-base md:text-2xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all font-sans italic break-all">aymanarfa@andulisaamarina.com</a></div>
+                     <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('EMAIL US', 'راسلنا مباشرة')}</p><a href="mailto:aymanarfa@andulisaamarina.com" className="text-xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all font-sans italic">aymanarfa@andulisaamarina.com</a></div>
                   </div>
+                  
+                  {/* PHONE + WHATSAPP HUB */}
                   <div className="flex items-start gap-8 group">
-                     <div className="w-16 h-16 bg-slate-950 dark:bg-white text-white dark:text-slate-950 rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110"><Phone className="w-7 h-7" /></div>
-                     <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{t('CALL US', 'اتصل بينا')}</p><a href="tel:+201030067465" className="text-3xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all font-sans tracking-tight italic">{t('+20 10 3006 7465', '01030067465')}</a></div>
+                     <div className="flex flex-col gap-2">
+                        <div className="w-16 h-16 bg-slate-950 dark:bg-white text-white dark:text-slate-950 rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110"><Phone className="w-7 h-7" /></div>
+                        <a href="https://wa.me/201030067465" target="_blank" className="w-16 h-16 bg-green-500 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform hover:scale-110 animate-pulse"><MessageCircle className="w-8 h-8" /></a>
+                     </div>
+                     <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('CALL OR WHATSAPP', 'اتصل أو وتساب')}</p><a href="tel:+201030067465" className="text-3xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all font-sans tracking-tighter italic">{t('+20 10 3006 7465', '01030067465')}</a><p className="text-[9px] font-black uppercase text-green-500 mt-2 tracking-widest">{t('CLICK ICON FOR DIRECT CHAT', 'اضغط على الأيقونة للمحادثة الفورية')}</p></div>
                   </div>
+                  
+                  {/* FACEBOOK 1 */}
                   <div className="flex items-start gap-8 group">
                      <div className="w-16 h-16 bg-blue-600 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110"><Facebook className="w-7 h-7" /></div>
-                     <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{t('FOLLOW US', 'تابعنا على فيسبوك')}</p><a href="https://www.facebook.com/AndalusiaMarine" target="_blank" className="text-2xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all uppercase italic">{t('Andalusia Marine', 'الأندلس مارين')}</a></div>
+                     <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('FOLLOW US', 'تابعنا على فيسبوك')}</p><a href="https://www.facebook.com/share/1CdRAdMNcb/" target="_blank" className="text-xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all uppercase italic">Ayman Hassan</a></div>
                   </div>
+
+                  {/* FACEBOOK 2 */}
+                  <div className="flex items-start gap-8 group">
+                     <div className="w-16 h-16 bg-blue-700 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110"><Facebook className="w-7 h-7" /></div>
+                     <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('FACEBOOK PAGE', 'صفحة فيسبوك البديلة')}</p><a href="https://www.facebook.com/share/1CF549CEZi/" target="_blank" className="text-xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all uppercase italic">Andalusia Marine Page</a></div>
+                  </div>
+
+                  {/* TIKTOK */}
+                  <div className="flex items-start gap-8 group">
+                     <div className="w-16 h-16 bg-black text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110">
+                        <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.89-.6-4.13-1.47-.13 3.32-.23 6.64-.32 9.96-.06 1.4-.38 2.85-1.16 4.04-1.12 1.72-3.13 2.72-5.18 2.91-2.15.22-4.47-.46-5.94-2.13-1.47-1.63-1.93-4.1-1.25-6.12.59-1.5 1.83-2.73 3.33-3.32 1.1-.47 2.33-.53 3.51-.31-.11 1.48-.22 2.95-.33 4.43-.8-.24-1.74-.23-2.48.33-.86.6-1.14 1.71-.85 2.67.24.96 1.15 1.72 2.15 1.72 1.05-.03 2.05-.8 2.37-1.8.31-1.01.27-2.08.27-3.13l.03-14.04z"/></svg>
+                     </div>
+                     <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('TIKTOK', 'تيك توك')}</p><a href="https://www.tiktok.com/@aymanhassan3391?_r=1&_t=ZS-952SjedJ1fB" target="_blank" className="text-xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all italic tracking-tight font-sans">aymanhassan3391</a></div>
+                  </div>
+
                </div>
             </div>
             <div className="bg-white dark:bg-slate-800 p-12 md:p-16 rounded-[4rem] shadow-2xl border border-slate-100 dark:border-slate-700 italic">
