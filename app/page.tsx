@@ -34,26 +34,26 @@ export default function Home() {
     <div className={`${isDark ? 'dark bg-slate-950' : 'bg-white'} min-h-screen transition-colors duration-500 overflow-x-hidden italic`} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
       
       {/* NAVIGATION */}
-      <nav className="fixed top-0 w-full z-50 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-b border-slate-100 dark:border-slate-800 transition-all">
-        <div className="flex justify-between items-center max-w-7xl mx-auto px-6 py-4">
+      <nav className="fixed top-0 w-full z-50 bg-white/95 dark:bg-slate-950/95 backdrop-blur-3xl border-b border-slate-100 dark:border-slate-800 shadow-2xl shadow-slate-950/5 transition-all">
+        <div className="flex justify-between items-center max-w-7xl mx-auto px-8 py-6 md:py-8">
           <div 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex items-center gap-4 cursor-pointer hover:opacity-80 transition-all">
-            <img src="/images/logo.png" className="h-10 md:h-14" alt="Logo" />
-            <h1 className="text-xl md:text-2xl font-black uppercase tracking-tighter text-slate-950 dark:text-white">Andalusia Marine</h1>
+            className="flex items-center gap-6 cursor-pointer hover:opacity-80 transition-all scale-100 md:scale-110 origin-left">
+            <img src="/images/logo.png" className="h-12 md:h-16 lg:h-20" alt="Logo" />
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-black uppercase tracking-tighter text-slate-950 dark:text-white">Andalusia Marine</h1>
           </div>
           
-          <div className="flex items-center gap-10">
-            <div className="hidden lg:flex gap-10 font-bold uppercase text-[10px] tracking-widest text-slate-800 dark:text-slate-200">
+          <div className="flex items-center gap-14">
+            <div className="hidden lg:flex gap-12 font-black uppercase text-[11px] lg:text-[13px] tracking-[0.3em] text-slate-800 dark:text-slate-200">
                 <a href="#services" className="hover:text-amber-600 transition-colors uppercase">{t('Services', 'خدماتنا')}</a>
                 <a href="#portfolio" className="hover:text-amber-600 transition-colors uppercase">{t('Portfolio', 'المعرض')}</a>
                 <a href="#why-us" className="hover:text-amber-600 transition-colors uppercase">{t('Why Us', 'لماذا نحن')}</a>
                 <a href="#contact" className="hover:text-amber-600 transition-colors uppercase">{t('Contact', 'تواصل')}</a>
             </div>
-            <div className="flex items-center gap-4">
-               <button onClick={() => setLang(lang === 'en' ? 'ar' : 'en')} className="bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-full text-[10px] font-black border border-slate-200 dark:border-slate-700 hover:border-amber-600 transition-all dark:text-white">{lang.toUpperCase()}</button>
-               <button onClick={() => setIsDark(!isDark)} className="p-3 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-all hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-950 dark:text-white">
-                  {isDark ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5" />}
+            <div className="flex items-center gap-6">
+               <button onClick={() => setLang(lang === 'en' ? 'ar' : 'en')} className="bg-slate-100 dark:bg-slate-800 px-6 py-3 rounded-full text-[11px] font-black border border-slate-200 dark:border-slate-700 hover:border-amber-600 transition-all dark:text-white tracking-widest">{lang.toUpperCase()}</button>
+               <button onClick={() => setIsDark(!isDark)} className="p-4 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-all hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-950 dark:text-white shadow-lg">
+                  {isDark ? <Sun className="w-6 h-6 text-amber-500" /> : <Moon className="w-6 h-6" />}
                </button>
             </div>
           </div>
