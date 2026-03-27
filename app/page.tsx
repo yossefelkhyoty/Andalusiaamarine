@@ -1,6 +1,6 @@
 /**
- * ANDALUSIA MARINE - V5.4 (WhatsApp Integrated)
- * ADDED DIRECT WHATSAPP LINK NEXT TO PHONE
+ * ANDALUSIA MARINE - V5.5 (Interactive Icons)
+ * ALL ICONS ARE NOW DIRECT LINKS FOR MAXIMUM ACCESSIBILITY
  */
 
 "use client"
@@ -102,7 +102,7 @@ export default function Home() {
                <div className="p-16 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[3.5rem] text-left rtl:text-right group hover:bg-slate-950 hover:border-slate-950 transition-all shadow-sm">
                   <Ship className="w-16 h-16 text-amber-600 mb-10 transition-colors" />
                   <h6 className="text-3xl font-black mb-6 group-hover:text-white dark:text-white uppercase transition-colors italic">{t('Naval Architecture', 'بناء وتصميم السفن')}</h6>
-                  <p className="text-slate-500 dark:text-slate-400 group-hover:text-white/90 transition-colors text-lg leading-relaxed italic">{t('Advanced design and construction of fishing fleets and luxury yachts.', 'تصميم وبناء أساطيل الصيد واليخوت السياحية باستخدام تقنيات ومخططات هندسية متطورة.')}</p>
+                  <p className="text-slate-500 dark:text-slate-400 group-hover:text-white/90 transition-colors text-lg leading-relaxed italic">{t('Advanced design and construction of fishing fleets and luxury yachts.', 'تصميم وبناء أساطيل الصيد واليخوت السياحية باستخدام تقنيات ومخططاتها هندسية متطورة.')}</p>
                </div>
                <div className="p-16 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[3.5rem] text-left rtl:text-right group hover:bg-amber-600 hover:border-amber-600 transition-all shadow-sm">
                   <Wrench className="w-16 h-16 text-amber-600 group-hover:text-white mb-10 transition-colors" />
@@ -184,37 +184,39 @@ export default function Home() {
                <h6 className="text-[10px] font-black uppercase tracking-[0.5em] text-amber-600 mb-8 italic">{t('PARTNERSHIP', 'شراكة النجاح')}</h6>
                <h5 className="text-5xl md:text-[6rem] font-black text-slate-950 dark:text-white leading-[0.85] tracking-tighter uppercase mb-16 italic">{t('START YOUR\nJOURNEY', 'ابدأ\nرحلتك')}</h5>
                <div className="space-y-8 italic">
+                  
+                  {/* EMAIL */}
                   <div className="flex items-start gap-8 group">
-                     <div className="w-16 h-16 bg-amber-600 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110"><Mail className="w-7 h-7" /></div>
+                     <a href="mailto:aymanarfa@andulisaamarina.com" className="w-16 h-16 bg-amber-600 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110 hover:bg-amber-500"><Mail className="w-7 h-7" /></a>
                      <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('EMAIL US', 'راسلنا مباشرة')}</p><a href="mailto:aymanarfa@andulisaamarina.com" className="text-xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all font-sans italic">aymanarfa@andulisaamarina.com</a></div>
                   </div>
                   
                   {/* PHONE + WHATSAPP HUB */}
                   <div className="flex items-start gap-8 group">
-                     <div className="flex flex-col gap-2">
-                        <div className="w-16 h-16 bg-slate-950 dark:bg-white text-white dark:text-slate-950 rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110"><Phone className="w-7 h-7" /></div>
+                     <div className="flex flex-wrap gap-3">
+                        <a href="tel:+201030067465" className="w-16 h-16 bg-slate-950 dark:bg-white text-white dark:text-slate-950 rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110 hover:bg-slate-800 dark:hover:bg-slate-100"><Phone className="w-7 h-7" /></a>
                         <a href="https://wa.me/201030067465" target="_blank" className="w-16 h-16 bg-green-500 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform hover:scale-110 animate-pulse"><MessageCircle className="w-8 h-8" /></a>
                      </div>
-                     <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('CALL OR WHATSAPP', 'اتصل أو وتساب')}</p><a href="tel:+201030067465" className="text-3xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all font-sans tracking-tighter italic">{t('+20 10 3006 7465', '01030067465')}</a><p className="text-[9px] font-black uppercase text-green-500 mt-2 tracking-widest">{t('CLICK ICON FOR DIRECT CHAT', 'اضغط على الأيقونة للمحادثة الفورية')}</p></div>
+                     <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('CALL OR WHATSAPP', 'اتصل أو وتساب')}</p><a href="tel:+201030067465" className="text-3xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all font-sans tracking-tighter italic">{t('+20 10 3006 7465', '01030067465')}</a><p className="text-[9px] font-black uppercase text-green-500 mt-2 tracking-widest">{t('CLICK ICON FOR DIRECT CHAT', 'اضغط على الأيقونات للتواصل المباشر')}</p></div>
                   </div>
                   
                   {/* FACEBOOK 1 */}
                   <div className="flex items-start gap-8 group">
-                     <div className="w-16 h-16 bg-blue-600 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110"><Facebook className="w-7 h-7" /></div>
+                     <a href="https://www.facebook.com/share/1CdRAdMNcb/" target="_blank" className="w-16 h-16 bg-blue-600 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110 hover:bg-blue-500"><Facebook className="w-7 h-7" /></a>
                      <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('FOLLOW US', 'تابعنا على فيسبوك')}</p><a href="https://www.facebook.com/share/1CdRAdMNcb/" target="_blank" className="text-xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all uppercase italic">Ayman Hassan</a></div>
                   </div>
 
                   {/* FACEBOOK 2 */}
                   <div className="flex items-start gap-8 group">
-                     <div className="w-16 h-16 bg-blue-700 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110"><Facebook className="w-7 h-7" /></div>
+                     <a href="https://www.facebook.com/share/1CF549CEZi/" target="_blank" className="w-16 h-16 bg-blue-700 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110 hover:bg-blue-600"><Facebook className="w-7 h-7" /></a>
                      <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('FACEBOOK PAGE', 'صفحة فيسبوك البديلة')}</p><a href="https://www.facebook.com/share/1CF549CEZi/" target="_blank" className="text-xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all uppercase italic">Andalusia Marine Page</a></div>
                   </div>
 
                   {/* TIKTOK */}
                   <div className="flex items-start gap-8 group">
-                     <div className="w-16 h-16 bg-black text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110">
+                     <a href="https://www.tiktok.com/@aymanhassan3391?_r=1&_t=ZS-952SjedJ1fB" target="_blank" className="w-16 h-16 bg-black text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110 hover:bg-slate-900 text-white">
                         <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.89-.6-4.13-1.47-.13 3.32-.23 6.64-.32 9.96-.06 1.4-.38 2.85-1.16 4.04-1.12 1.72-3.13 2.72-5.18 2.91-2.15.22-4.47-.46-5.94-2.13-1.47-1.63-1.93-4.1-1.25-6.12.59-1.5 1.83-2.73 3.33-3.32 1.1-.47 2.33-.53 3.51-.31-.11 1.48-.22 2.95-.33 4.43-.8-.24-1.74-.23-2.48.33-.86.6-1.14 1.71-.85 2.67.24.96 1.15 1.72 2.15 1.72 1.05-.03 2.05-.8 2.37-1.8.31-1.01.27-2.08.27-3.13l.03-14.04z"/></svg>
-                     </div>
+                     </a>
                      <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('TIKTOK', 'تيك توك')}</p><a href="https://www.tiktok.com/@aymanhassan3391?_r=1&_t=ZS-952SjedJ1fB" target="_blank" className="text-xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all italic tracking-tight font-sans">aymanhassan3391</a></div>
                   </div>
 
