@@ -1,6 +1,6 @@
 /**
- * ANDALUSIA MARINE - V5.1 (Vercel Live Production Fix)
- * AUTO-SYNC WITH NEON POSTGRES + ALL CATEGORIES DEFAULT
+ * ANDALUSIA MARINE - V5.2 (Clean UI Version)
+ * REMOVED 'ALL' FILTER + SHIPS AS DEFAULT
  */
 
 "use client"
@@ -9,7 +9,7 @@ import { Anchor, Settings, Layout, Phone, Facebook, Sun, Moon, Mail, Send as Sen
 
 export default function Home() {
   const [lang, setLang] = useState('ar')
-  const [filter, setFilter] = useState('all') // Changed to 'all' for instant visibility
+  const [filter, setFilter] = useState('ships') // Back to 'ships' as default
   const [isDark, setIsDark] = useState(false)
   const [items, setItems] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -124,12 +124,12 @@ export default function Home() {
             <h5 className="text-4xl md:text-7xl font-black uppercase text-slate-950 dark:text-white tracking-tighter mb-16 italic">{t('Projects', 'مشاريعنا')}</h5>
             
             <div className="flex flex-wrap justify-center gap-3 p-3 bg-white dark:bg-slate-800 rounded-full max-w-fit mx-auto border border-slate-200 dark:border-slate-700 shadow-inner mb-24 transition-all">
-               {['all', 'ships', 'engines', 'propulsion', 'maintenance'].map((cat) => (
+               {['ships', 'engines', 'propulsion', 'maintenance'].map((cat) => (
                  <button 
                    key={cat}
                    onClick={() => setFilter(cat)}
                    className={`px-10 py-5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${filter === cat ? 'bg-amber-600 text-white shadow-xl scale-105' : 'text-slate-500 hover:text-amber-600'}`}>
-                   {t(cat.toUpperCase(), cat==='all'? 'الكل' : cat === 'ships' ? 'السفن' : cat === 'engines' ? 'المحركات بحرية' : cat === 'propulsion' ? 'أنظمة الدفع و المخفضات' : 'الصيانة و قطع الغيار')}
+                   {t(cat.toUpperCase(), cat === 'ships' ? 'السفن' : cat === 'engines' ? 'المحركات بحرية' : cat === 'propulsion' ? 'أنظمة الدفع و المخفضات' : 'الصيانة و قطع الغيار')}
                  </button>
                ))}
             </div>
@@ -141,7 +141,7 @@ export default function Home() {
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 transition-all">
-                   {items.filter(item => (filter === 'all' || item.category === filter) && !item.isHidden).map(item => (
+                   {items.filter(item => item.category === filter && !item.isHidden).map(item => (
                      <div key={item.id} className="group relative aspect-[4/5] overflow-hidden rounded-[4rem] shadow-2xl bg-slate-200 border border-slate-100 dark:border-slate-800 transition-all">
                         <img src={item.media_path} className="w-full h-full object-cover transition-all duration-[2s] group-hover:scale-110" alt={item.title_en} />
                         <div className="absolute inset-0 bg-slate-950/90 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-12 text-left rtl:text-right transform translate-y-8 group-hover:translate-y-0">
