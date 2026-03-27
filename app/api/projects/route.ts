@@ -1,10 +1,10 @@
 /**
- * ANDALUSIA MARINE - PROJECTS API V2
- * Optimized with Prisma Singleton & Improved Response Handling
+ * ANDALUSIA MARINE - PROJECTS API V2.1 (Vercel Build Fix)
+ * Changed alias path To Relative Path for Absolute Stability.
  */
 
 import { NextResponse } from 'next/server'
-import prisma from '@/lib/prisma'
+import prisma from '../../../lib/prisma' // Fixed Relative Path
 
 export async function GET() {
   try {
