@@ -35,25 +35,25 @@ export default function Home() {
       
       {/* NAVIGATION */}
       <nav className="fixed top-0 w-full z-50 bg-white/95 dark:bg-slate-950/95 backdrop-blur-3xl border-b border-slate-100 dark:border-slate-800 shadow-2xl shadow-slate-950/5 transition-all">
-        <div className="flex justify-between items-center max-w-7xl mx-auto px-8 py-6 md:py-8">
+        <div className="flex justify-between items-center max-w-[90rem] mx-auto px-10 py-6 md:py-8 lg:py-10">
           <div 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex items-center gap-6 cursor-pointer hover:opacity-80 transition-all scale-100 md:scale-110 origin-left">
-            <img src="/images/logo.png" className="h-12 md:h-16 lg:h-20" alt="Logo" />
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-black uppercase tracking-tighter text-slate-950 dark:text-white">Andalusia Marine</h1>
+            className="flex items-center gap-10 cursor-pointer hover:opacity-80 transition-all scale-100 md:scale-110 origin-left rtl:origin-right">
+            <img src="/images/logo.png" className="h-12 md:h-16 lg:h-24" alt="Logo" />
+            <h1 className="text-2xl md:text-3xl lg:text-5xl font-black uppercase tracking-tighter text-slate-950 dark:text-white">Andalusia Marine</h1>
           </div>
           
-          <div className="flex items-center gap-14">
-            <div className="hidden lg:flex gap-12 font-black uppercase text-[11px] lg:text-[13px] tracking-[0.3em] text-slate-800 dark:text-slate-200">
-                <a href="#services" className="hover:text-amber-600 transition-colors uppercase">{t('Services', 'خدماتنا')}</a>
-                <a href="#portfolio" className="hover:text-amber-600 transition-colors uppercase">{t('Portfolio', 'المعرض')}</a>
-                <a href="#why-us" className="hover:text-amber-600 transition-colors uppercase">{t('Why Us', 'لماذا نحن')}</a>
-                <a href="#contact" className="hover:text-amber-600 transition-colors uppercase">{t('Contact', 'تواصل')}</a>
+          <div className="flex items-center gap-20">
+            <div className="hidden lg:flex gap-16 font-black uppercase text-[12px] lg:text-[14px] tracking-[0.4em] text-slate-800 dark:text-slate-200">
+                <a href="#services" className="hover:text-amber-600 transition-colors uppercase whitespace-nowrap">{t('Services', 'خدماتنا')}</a>
+                <a href="#portfolio" className="hover:text-amber-600 transition-colors uppercase whitespace-nowrap">{t('Portfolio', 'المعرض')}</a>
+                <a href="#why-us" className="hover:text-amber-600 transition-colors uppercase whitespace-nowrap">{t('Why Us', 'لماذا نحن')}</a>
+                <a href="#contact" className="hover:text-amber-600 transition-colors uppercase whitespace-nowrap">{t('Contact', 'تواصل')}</a>
             </div>
-            <div className="flex items-center gap-6">
-               <button onClick={() => setLang(lang === 'en' ? 'ar' : 'en')} className="bg-slate-100 dark:bg-slate-800 px-6 py-3 rounded-full text-[11px] font-black border border-slate-200 dark:border-slate-700 hover:border-amber-600 transition-all dark:text-white tracking-widest">{lang.toUpperCase()}</button>
-               <button onClick={() => setIsDark(!isDark)} className="p-4 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-all hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-950 dark:text-white shadow-lg">
-                  {isDark ? <Sun className="w-6 h-6 text-amber-500" /> : <Moon className="w-6 h-6" />}
+            <div className="flex items-center gap-10">
+               <button onClick={() => setLang(lang === 'en' ? 'ar' : 'en')} className="bg-slate-100 dark:bg-slate-800 px-8 py-4 rounded-full text-[12px] font-black border border-slate-200 dark:border-slate-700 hover:border-amber-600 transition-all dark:text-white tracking-widest">{lang.toUpperCase()}</button>
+               <button onClick={() => setIsDark(!isDark)} className="p-5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-all hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-950 dark:text-white shadow-lg">
+                  {isDark ? <Sun className="w-8 h-8 text-amber-500" /> : <Moon className="w-8 h-8" />}
                </button>
             </div>
           </div>
@@ -208,7 +208,7 @@ export default function Home() {
 
                   {/* FACEBOOK 2 */}
                   <div className="flex items-start gap-8 group">
-                     <a href="https://www.facebook.com/share/1CF549CEZi/" target="_blank" className="w-16 h-16 bg-blue-700 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110 hover:bg-blue-600"><Facebook className="w-7 h-7" /></a>
+                     <a href="https://www.facebook.com/elwaleed.company" target="_blank" className="w-16 h-16 bg-blue-700 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110 hover:bg-blue-600"><Facebook className="w-7 h-7" /></a>
                      <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('FACEBOOK PAGE', 'صفحة فيسبوك البديلة')}</p><a href="https://www.facebook.com/share/1CF549CEZi/" target="_blank" className="text-xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all uppercase italic">Andalusia Marine Page</a></div>
                   </div>
 
