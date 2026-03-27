@@ -1,6 +1,6 @@
 /**
- * ANDALUSIA MARINE - ADMIN LIVE V11.0 (UPLOAD + DELETE)
- * REAL CLOUD UPLOADS (VERCEL BLOB) & PG DELETE
+ * ANDALUSIA MARINE - ADMIN LIVE V11.1 (VERBOSE ERRORS)
+ * HANDLES REAL ERROR MESSAGES FROM BLOB API
  */
 
 "use client"
@@ -46,7 +46,6 @@ export default function Admin() {
 
     setIsSyncing(true)
     try {
-        // REAL VERCEL BLOB UPLOAD
         const res = await fetch(`/api/upload?filename=${file.name}`, {
           method: 'POST',
           body: file,
@@ -57,10 +56,12 @@ export default function Admin() {
             const type = file.type.startsWith('video') ? 'video' : 'image'
             setEditForm({ ...editForm, media_path: blob.url, media_type: type })
         } else {
-            alert('Cloud Upload Failed - Token Missing?')
+            // 🛡 DISPLAY REAL ERROR FROM SERVER
+            console.error('SYSTEM_ERROR:', blob.details || blob.error)
+            alert('Cloud Sync Failed: ' + (blob.details || blob.error || 'Unknown Vercel Error'))
         }
-    } catch (e) {
-        alert('Upload Error - Ensure "vercel env pull" was executed.')
+    } catch (err: any) {
+        alert('Network Connection Broken - Check Admin Terminal')
     } finally {
         setIsSyncing(false)
     }
@@ -97,7 +98,8 @@ export default function Admin() {
         setEditingId(null)
         setEditForm({ category: 'ships', title_ar: '', title_en: '', orange_label_ar: '', orange_label_en: '', desc_ar: '', desc_en: '', media_path: '', media_type: 'image' })
     } else {
-        alert('DB Sync Failed - Check Connection URL')
+        const err = await res.json()
+        alert('DB Sync Failed: ' + err.error)
     }
     setIsSyncing(false)
   }
@@ -119,7 +121,7 @@ export default function Admin() {
              <form onSubmit={handleLogin} className="space-y-6">
                 <div className="relative"><input type={showPass ? "text" : "password"} placeholder="Enter Admin Key" className="w-full bg-slate-800 border-none rounded-2xl p-6 text-white outline-none focus:ring-2 focus:ring-amber-600 font-bold" value={password} onChange={(e) => setPassword(e.target.value)} /><button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-6 top-6 text-slate-500 hover:text-white transition-colors">{showPass ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}</button></div>
                 <div className="flex items-center gap-3 px-2"><input type="checkbox" id="rem" className="w-5 h-5 rounded bg-slate-800 text-amber-600 cursor-pointer" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} /><label htmlFor="rem" className="text-[10px] font-black uppercase text-slate-400 tracking-widest cursor-pointer leading-none">Stay Signed In</label></div>
-                <button className="w-full bg-amber-600 hover:bg-amber-500 text-white py-6 rounded-2xl font-black uppercase text-xs tracking-widest transition-all shadow-xl shadow-amber-600/20">Open Terminal</button>
+                <button className="w-full bg-amber-600 hover:bg-amber-500 text-white py-6 rounded-2xl font-black uppercase text-xs tracking-widest transition-all">Open Terminal</button>
              </form>
           </div>
        </div>
@@ -128,17 +130,14 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex font-sans italic">
-      <aside className="w-72 bg-slate-950 text-white p-10 flex flex-col fixed h-screen z-50 transition-all italic shadow-[10px_0_30px_rgba(0,0,0,0.2)]">
+      <aside className="w-72 bg-slate-950 text-white p-10 flex flex-col fixed h-screen z-50 transition-all italic">
          <div className="flex items-center gap-3 mb-20 px-2 group cursor-pointer" onClick={() => window.scrollTo({top:0, behavior:'smooth'})}><Anchor className="w-8 h-8 text-amber-600 group-hover:rotate-12 transition-all" /><h2 className="text-xl font-black uppercase tracking-tighter">ANDALUSIA</h2></div>
          <nav className="space-y-4 flex-grow italic"><button className="w-full flex items-center gap-5 p-5 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all bg-amber-600 text-white shadow-xl italic"><Layout className="w-4 h-4" /> Global Database</button></nav>
          <button onClick={() => {setIsLoggedIn(false); localStorage.removeItem('andalusia_admin_active');}} className="flex items-center gap-5 p-5 text-slate-500 hover:text-white font-black text-[10px] uppercase tracking-widest transition-all mt-auto border-t border-slate-900 pt-10 italic"><LogOut className="w-4 h-4" /> Exit Console</button>
       </aside>
 
       <main className="flex-grow pl-[20rem] p-16 italic">
-         <header className="flex justify-between items-center mb-16 italic">
-            <div><h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-amber-600 mb-2">Maritime Inventory Hub</h3><h4 className="text-6xl font-black uppercase tracking-tighter text-slate-950">System Console</h4></div>
-            <a href="/" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-950 border-b border-slate-200 pb-1 italic transition-all">Go Live</a>
-         </header>
+         <header className="flex justify-between items-center mb-16 italic"><div><h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-amber-600 mb-2">Maritime Inventory Hub</h3><h4 className="text-6xl font-black uppercase tracking-tighter text-slate-950">System Console</h4></div><a href="/" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-950 border-b border-slate-200 pb-1 italic transition-all">Go Live</a></header>
 
          {isSyncing && <div className="fixed top-10 right-10 bg-slate-950 text-white px-8 py-4 rounded-full z-[100] shadow-2xl border border-amber-600/30 flex items-center gap-5 animate-bounce"><Loader2 className="w-5 h-5 text-amber-500 animate-spin" /><span className="text-[10px] font-black uppercase tracking-widest">Global Upload Syncing...</span></div>}
 
@@ -165,16 +164,16 @@ export default function Admin() {
             </div>
 
             <div className="xl:col-span-2 space-y-8 italic">
-               <div className="bg-slate-950 p-10 rounded-[4.5rem] shadow-2xl border border-slate-800 space-y-8 italic"><h5 className="text-[10px] font-black uppercase tracking-widest flex items-center gap-4 text-white italic"><ImageIcon className="w-4 h-4 text-amber-500" /> Global Inventory</h5><div className="relative italic"><Search className="absolute left-6 top-6 w-5 h-5 text-slate-500 shadow-xl" /><input value={search} onChange={(e) => setSearch(e.target.value)} type="text" placeholder="Global Filter..." className="w-full bg-slate-900 border-none rounded-2xl p-6 pl-16 text-white outline-none focus:ring-1 focus:ring-amber-600 font-black italic shadow-inner" /></div></div>
+               <div className="bg-slate-950 p-10 rounded-[4.5rem] shadow-2xl border border-slate-800 space-y-8 italic"><h5 className="text-[10px] font-black uppercase tracking-widest flex items-center gap-4 text-white italic"><ImageIcon className="w-4 h-4 text-amber-500" /> Inventory Insights</h5><div className="relative italic"><Search className="absolute left-6 top-6 w-5 h-5 text-slate-500 shadow-xl" /><input value={search} onChange={(e) => setSearch(e.target.value)} type="text" placeholder="Global Filter..." className="w-full bg-slate-900 border-none rounded-2xl p-6 pl-16 text-white outline-none focus:ring-1 focus:ring-amber-600 font-black italic shadow-inner" /></div></div>
                <div className="space-y-5 overflow-y-auto max-h-[1400px] pr-4 custom-scrollbar italic">
                   {items.filter(it => it.title_en?.toLowerCase().includes(search.toLowerCase()) || it.title_ar?.includes(search)).map(it => (
                      <div key={it.id} className={`flex items-center gap-6 p-6 rounded-[3rem] border transition-all group relative italic ${it.isHidden ? 'bg-slate-100 opacity-60 grayscale' : 'bg-white shadow-sm hover:border-amber-100 border-slate-100 hover:shadow-xl'}`}>
                         {it.media_type === 'video' ? <div className="w-20 h-20 rounded-[1.5rem] bg-blue-50 flex items-center justify-center text-blue-600"><Film className="w-8 h-8" /></div> : <img src={it.media_path} className="w-20 h-20 rounded-[1.5rem] object-cover bg-slate-100 shadow-inner" />}
                         <div className="flex-grow overflow-hidden text-left rtl:text-right italic"><p className="font-black text-[12px] uppercase truncate text-slate-950 mb-1 italic">{it.title_en}</p><span className="text-amber-600 text-[8px] font-black uppercase tracking-tighter italic">{it.category}</span></div>
                         <div className="flex flex-col gap-2 italic">
-                           <button onClick={() => toggleVisibility(it.id, it.isHidden)} title="Visibility Toggle" className={`p-3 rounded-xl shadow-sm transition-all ${it.isHidden ? 'bg-amber-600 text-white' : 'bg-slate-50 text-slate-400 hover:text-amber-600'}`}>{it.isHidden ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}</button>
-                           <button onClick={() => {setEditingId(it.id); setEditForm(it); window.scrollTo({top:0, behavior:'smooth'})}} title="Modify Entry" className="p-3 bg-slate-50 text-slate-400 hover:text-amber-600 rounded-xl transition-all shadow-sm"><Edit3 className="w-4 h-4" /></button>
-                           <button onClick={() => deleteProject(it.id)} title="Wipe Record" className="p-3 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white rounded-xl transition-all shadow-sm"><Trash2 className="w-4 h-4" /></button>
+                           <button onClick={() => toggleVisibility(it.id, it.isHidden)} className={`p-3 rounded-xl shadow-sm transition-all ${it.isHidden ? 'bg-amber-600 text-white' : 'bg-slate-50 text-slate-400 hover:text-amber-600'}`}>{it.isHidden ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}</button>
+                           <button onClick={() => {setEditingId(it.id); setEditForm(it); window.scrollTo({top:0, behavior:'smooth'})}} className="p-3 bg-slate-50 text-slate-400 hover:text-amber-600 rounded-xl transition-all shadow-sm"><Edit3 className="w-4 h-4" /></button>
+                           <button onClick={() => deleteProject(it.id)} className="p-3 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white rounded-xl transition-all shadow-sm"><Trash2 className="w-4 h-4" /></button>
                         </div>
                      </div>
                   ))}

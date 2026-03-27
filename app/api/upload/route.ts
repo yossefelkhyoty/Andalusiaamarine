@@ -1,6 +1,6 @@
 /**
- * ANDALUSIA MARINE - UPLOAD CORE V1.0
- * HANDLES CLIENT-SIDE UPLOADS VIA VERCEL BLOB
+ * ANDALUSIA MARINE - UPLOAD CORE V1.1 (Debug Mode)
+ * EXTENDED ERROR LOGGING FOR PRODUCTION FLIGHT
  */
 
 import { put } from '@vercel/blob'
@@ -10,17 +10,27 @@ export async function POST(request: Request): Promise<NextResponse> {
   const { searchParams } = new URL(request.url)
   const filename = searchParams.get('filename')
 
-  if (!filename || !request.body) {
-    return NextResponse.json({ error: 'Filename and Body are Required' }, { status: 400 })
+  if (!filename) {
+    return NextResponse.json({ error: 'Filename is Missing' }, { status: 400 })
   }
 
   try {
-    const blob = await put(filename, request.body, {
+    // 🛡 ENSURE WE HAVE THE TOKEN
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+       return NextResponse.json({ error: 'Token missing in Environment' }, { status: 500 })
+    }
+
+    const blob = await put(filename, request.body!, {
       access: 'public',
     })
 
     return NextResponse.json(blob)
-  } catch (error) {
-    return NextResponse.json({ error: 'Upload Failed Server-Side' }, { status: 500 })
+  } catch (error: any) {
+    // 🛡 SEND REAL ERROR MESSAGE TO ADMIN
+    console.error('BLOB_ERROR:', error)
+    return NextResponse.json({ 
+        error: 'Upload Internal Crash', 
+        details: error.message 
+    }, { status: 500 })
   }
 }
