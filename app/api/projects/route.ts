@@ -1,10 +1,10 @@
 /**
- * ANDALUSIA MARINE - PROJECTS API V2.1 (Vercel Build Fix)
- * Changed alias path To Relative Path for Absolute Stability.
+ * ANDALUSIA MARINE - PROJECTS API V2.2 (DELETE Support)
+ * Added DELETE handler for projects CRUD.
  */
 
 import { NextResponse } from 'next/server'
-import prisma from '../../../lib/prisma' // Fixed Relative Path
+import prisma from '../../../lib/prisma'
 
 export async function GET() {
   try {
@@ -44,5 +44,22 @@ export async function PUT(request: Request) {
       return NextResponse.json(project)
     } catch (error) {
       return NextResponse.json({ error: 'Update Failed' }, { status: 500 })
+    }
+}
+
+// 🛡 NEW: DELETE HANDLER
+export async function DELETE(request: Request) {
+    try {
+        const { searchParams } = new URL(request.url)
+        const id = searchParams.get('id')
+        
+        if (!id) return NextResponse.json({ error: 'ID is required' }, { status: 400 })
+        
+        await prisma.project.delete({
+            where: { id: Number(id) }
+        })
+        return NextResponse.json({ success: true })
+    } catch (error) {
+        return NextResponse.json({ error: 'Delete Failed' }, { status: 500 })
     }
 }
