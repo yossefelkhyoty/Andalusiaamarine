@@ -55,7 +55,7 @@ export default function Admin() {
 
       setIsSyncing(true)
       try {
-         const { supabase } = await import('@/lib/supabase')
+         const { supabase } = await import('../../lib/supabase')
          const fileName = `${Date.now()}-${file.name}`
          const { data, error } = await supabase.storage
             .from('projects')
