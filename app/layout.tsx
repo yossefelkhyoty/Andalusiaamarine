@@ -21,8 +21,8 @@ const alexandria = Alexandria({
 });
 
 export const metadata: Metadata = {
-  title: "Andalusia Marine | Industrial Excellence",
-  description: "Trading, Maintenance and Shipbuilding for Marine Engines and Vessels.",
+  title: "Andalusia Marine | Excellence in Marine Engineering",
+  description: "Specialized in Marine Engine Maintenance, Shipbuilding, and Equipment Trading. Global standards in naval architecture and propulsion systems.",
 };
 
 export default function RootLayout({
