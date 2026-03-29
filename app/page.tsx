@@ -137,7 +137,11 @@ export default function Home() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 transition-all min-h-[600px]">
                      {items.filter(item => item.category === filter && !item.isHidden).map(item => (
                         <div key={item.id} className="group relative aspect-[4/5] overflow-hidden rounded-[4rem] shadow-2xl bg-slate-200 border border-slate-100 dark:border-slate-800 transition-all">
-                           <img src={item.media_path} className="w-full h-full object-cover transition-all duration-[2s] group-hover:scale-110" alt={item.title_en} width={400} height={500} loading="lazy" />
+                           {item.media_type === 'video' ? (
+                              <video src={item.media_path} className="w-full h-full object-cover transition-all duration-[2s] group-hover:scale-110" autoPlay muted loop playsInline preload="auto" />
+                           ) : (
+                              <img src={item.media_path} className="w-full h-full object-cover transition-all duration-[2s] group-hover:scale-110" alt={item.title_en} width={400} height={500} loading="lazy" />
+                           )}
                            <div className="absolute inset-0 bg-slate-950/90 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-12 text-left rtl:text-right transform translate-y-8 group-hover:translate-y-0">
                               <span className="text-amber-600 font-black text-xs uppercase tracking-[0.3em] mb-4">{t(item.orange_label_en, item.orange_label_ar)}</span>
                               <h6 className="text-2xl md:text-3xl font-black text-white uppercase leading-tight mb-4 tracking-tight">{t(item.title_en, item.title_ar)}</h6>
