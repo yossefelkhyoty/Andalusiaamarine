@@ -5,7 +5,7 @@
 
 "use client"
 import React, { useState, useEffect } from 'react'
-import { Anchor, Settings, Layout, Phone, Facebook, Sun, Moon, Mail, Send as SendIcon, CheckCircle, Shield, Zap, Wrench, ArrowRight as LucideArrowRight, Ship, Compass, Loader2, MessageCircle } from 'lucide-react'
+import { Anchor, Settings, Layout, Phone, Facebook, Sun, Moon, Mail, Send as SendIcon, CheckCircle, Shield, Zap, Wrench, ArrowRight as LucideArrowRight, Ship, Compass, Loader2, MessageCircle, X } from 'lucide-react'
 
 export default function Home() {
    const [lang, setLang] = useState('ar')
@@ -13,6 +13,7 @@ export default function Home() {
    const [isDark, setIsDark] = useState(false)
    const [items, setItems] = useState<any[]>([])
    const [loading, setLoading] = useState(true)
+   const [selectedItem, setSelectedItem] = useState<any>(null)
 
    const t = (en: string, ar: string) => (lang === 'en' ? en : ar)
 
@@ -136,7 +137,7 @@ export default function Home() {
                ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 transition-all min-h-[600px]">
                      {items.filter(item => item.category === filter && !item.isHidden).map(item => (
-                        <div key={item.id} className="group relative aspect-[4/5] overflow-hidden rounded-[4rem] shadow-2xl bg-slate-200 border border-slate-100 dark:border-slate-800 transition-all">
+                        <div key={item.id} onClick={() => setSelectedItem(item)} className="group relative aspect-[4/5] overflow-hidden rounded-[4rem] shadow-2xl bg-slate-200 border border-slate-100 dark:border-slate-800 transition-all cursor-pointer">
                            {item.media_type === 'video' ? (
                               <video src={item.media_path} className="w-full h-full object-cover transition-all duration-[2s] group-hover:scale-110" autoPlay muted loop playsInline preload="auto" />
                            ) : (
@@ -269,6 +270,18 @@ export default function Home() {
          <footer className="py-16 bg-white dark:bg-slate-950 text-center border-t border-slate-200 dark:border-slate-900 opacity-60 italic">
             <p className="text-[10px] font-black uppercase tracking-[0.3em] italic">© 2026 ANDALUSIA MARINE – EXCELLENCE AT SEA.</p>
          </footer>
-      </div>
-   )
+      {selectedItem && (
+         <div className="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-2xl flex items-center justify-center p-4 md:p-12 animate-in fade-in duration-500">
+            <button onClick={(e) => { e.stopPropagation(); setSelectedItem(null); }} className="absolute top-10 right-10 p-4 bg-white/10 hover:bg-white/20 rounded-full transition-all text-white z-[110]"><X className="w-8 h-8" /></button>
+            <div className="relative w-full max-w-6xl aspect-video rounded-[3rem] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-500">
+               {selectedItem.media_type === 'video' ? (
+                  <video src={selectedItem.media_path} className="w-full h-full object-contain bg-black" autoPlay controls muted playsInline />
+               ) : (
+                  <img src={selectedItem.media_path} className="w-full h-full object-contain bg-black" alt={selectedItem.title_en} />
+               )}
+            </div>
+         </div>
+      )}
+   </div>
+)
 }
