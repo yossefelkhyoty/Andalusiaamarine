@@ -200,9 +200,20 @@ export default function Home() {
                      className="filter invert dark:invert-0 brightness-95 contrast-105"
                   ></iframe>
                </div>
-               <p className="mt-12 text-slate-500 dark:text-slate-400 font-black uppercase tracking-widest text-xs italic">
-                  {t('31°23\'12.5"N 30°25\'07.6"E • ROSSETTA, EGYPT', 'إحداثيات المقر: رشيد، مدينة البحيرة، مصر')}
-               </p>
+               <div className="mt-12 flex flex-col items-center gap-6">
+                  <a 
+                     href="https://www.google.com/maps?q=31.386801,30.418779" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     className="bg-amber-600 hover:bg-amber-500 text-white px-10 py-5 rounded-full font-black uppercase text-[10px] tracking-[0.2em] transition-all shadow-xl shadow-amber-600/20 flex items-center gap-4 group mx-auto"
+                  >
+                     <Compass className="w-5 h-5 group-hover:rotate-45 transition-transform" />
+                     {t('Open in Google Maps', 'افتح في خرائط جوجل')}
+                   </a>
+                   <p className="text-slate-500 dark:text-slate-400 font-black uppercase tracking-widest text-[9px] italic opacity-60">
+                      {t('31°23\'12.5"N 30°25\'07.6"E • ROSSETTA, EGYPT', 'إحداثيات المقر: رشيد، مدينة البحيرة، مصر')}
+                   </p>
+                </div>
             </div>
          </section>
 
