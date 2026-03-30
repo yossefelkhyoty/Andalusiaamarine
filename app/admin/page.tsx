@@ -24,6 +24,7 @@ export default function Admin() {
    const [newPassword, setNewPassword] = useState('')
    const [confirmPassword, setConfirmPassword] = useState('')
    const [adminPassword, setAdminPassword] = useState('andalusia2026')
+   const [passwordReady, setPasswordReady] = useState(false)
 
    const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -42,6 +43,7 @@ export default function Admin() {
          .then(r => r.json())
          .then(d => { if (d.value) setAdminPassword(d.value) })
          .catch(() => {})
+         .finally(() => setPasswordReady(true))
    }, [])
 
    const handleLogin = (e: React.FormEvent) => {
@@ -134,7 +136,9 @@ export default function Admin() {
                <form onSubmit={handleLogin} className="space-y-6">
                   <div className="relative"><input type={showPass ? "text" : "password"} placeholder="Enter Admin Key" className="w-full bg-slate-800 border-none rounded-2xl p-6 text-white outline-none focus:ring-2 focus:ring-amber-600 font-bold" value={password} onChange={(e) => setPassword(e.target.value)} /><button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-6 top-6 text-slate-500 hover:text-white transition-colors">{showPass ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}</button></div>
                   <div className="flex items-center gap-3 px-2"><input type="checkbox" id="rem" className="w-5 h-5 rounded bg-slate-800 text-amber-600 cursor-pointer" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} /><label htmlFor="rem" className="text-[10px] font-black uppercase text-slate-400 tracking-widest cursor-pointer leading-none">Stay Signed In</label></div>
-                  <button className="w-full bg-amber-600 hover:bg-amber-500 text-white py-6 rounded-2xl font-black uppercase text-xs tracking-widest transition-all">Open Terminal</button>
+                  <button disabled={!passwordReady} className={`w-full bg-amber-600 text-white py-6 rounded-2xl font-black uppercase text-xs tracking-widest transition-all flex items-center justify-center gap-3 ${passwordReady ? 'hover:bg-amber-500' : 'opacity-60 cursor-not-allowed'}`}>
+                      {passwordReady ? 'Open Terminal' : <><Loader2 className="w-4 h-4 animate-spin" /> Verifying...</>}
+                   </button>
                </form>
             </div>
          </div>
