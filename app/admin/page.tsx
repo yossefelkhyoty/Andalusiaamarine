@@ -5,7 +5,7 @@
 
 "use client"
 import React, { useState, useEffect, useRef } from 'react'
-import { Layout, Upload, Trash2, LogOut, ChevronLeft, Plus, Edit3, Settings, Save, X, Eye, EyeOff, Lock, Anchor, Image as ImageIcon, Search, Film, Loader2, Menu } from 'lucide-react'
+import { Layout, Upload, Trash2, LogOut, ChevronLeft, Plus, Edit3, Settings, Save, X, Eye, EyeOff, Lock, Anchor, Image as ImageIcon, Search, Film, Loader2, MoreVertical, KeyRound } from 'lucide-react'
 
 export default function Admin() {
    const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -20,6 +20,13 @@ export default function Admin() {
 
    // 🛡 MOBILE UI STATES
    const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+   const [showSettings, setShowSettings] = useState(false)
+   const [newPassword, setNewPassword] = useState('')
+   const [confirmPassword, setConfirmPassword] = useState('')
+   const [adminPassword, setAdminPassword] = useState(() => {
+      if (typeof window !== 'undefined') return localStorage.getItem('andalusia_admin_pass') || 'andalusia2026'
+      return 'andalusia2026'
+   })
 
    const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -37,7 +44,7 @@ export default function Admin() {
 
    const handleLogin = (e: React.FormEvent) => {
       e.preventDefault()
-      if (password === 'andalusia2026') {
+      if (password === adminPassword) {
          setIsLoggedIn(true)
          if (rememberMe) localStorage.setItem('andalusia_admin_active', 'true')
       } else alert('Access Key Invalid!')
@@ -138,14 +145,31 @@ export default function Admin() {
          {/* 🛡 MOBILE TOP BAR */}
          <div className="lg:hidden flex items-center justify-between p-6 bg-slate-950 text-white fixed top-0 w-full z-[100] shadow-xl">
             <div className="flex items-center gap-3"><Anchor className="w-6 h-6 text-amber-600" /><h2 className="text-lg font-black tracking-tighter uppercase italic">ANDALUSIA</h2></div>
-            <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-slate-800 rounded-xl transition-all"><Menu className="w-6 h-6 text-white" /></button>
+             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-slate-800 rounded-xl transition-all"><MoreVertical className="w-6 h-6 text-white" /></button>
          </div>
 
          {/* 🛡 RESPONSIVE SIDEBAR */}
          <aside className={`w-72 bg-slate-950 text-white p-10 flex flex-col fixed inset-y-0 z-[110] transition-all italic shadow-2xl lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : 'ltr:-translate-x-full rtl:translate-x-full'} lg:relative h-screen`}>
             <div className="flex items-center gap-3 mb-10 lg:mb-20 px-2 group cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}><Anchor className="w-8 h-8 text-amber-600" /><h2 className="text-xl font-black uppercase tracking-tighter italic">ANDALUSIA</h2></div>
             <nav className="space-y-4 flex-grow italic"><button className="w-full flex items-center gap-5 p-5 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all bg-amber-600 text-white shadow-xl italic"><Layout className="w-4 h-4" /> Global Database</button></nav>
-            <button onClick={() => { setIsLoggedIn(false); localStorage.removeItem('andalusia_admin_active'); }} className="flex items-center gap-5 p-5 text-slate-500 hover:text-white font-black text-[10px] uppercase tracking-widest transition-all mt-auto border-t border-slate-900 pt-10 italic"><LogOut className="w-4 h-4" /> Exit Console</button>
+             <button onClick={() => setShowSettings(!showSettings)} className="flex items-center gap-5 p-5 text-slate-500 hover:text-amber-400 font-black text-[10px] uppercase tracking-widest transition-all italic"><KeyRound className="w-4 h-4" /> Change Password</button>
+             {showSettings && (
+                <div className="bg-slate-900 rounded-2xl p-6 space-y-4">
+                   <input type="password" placeholder="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full bg-slate-800 rounded-xl p-4 text-white text-xs font-bold outline-none focus:ring-1 focus:ring-amber-600" />
+                   <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="w-full bg-slate-800 rounded-xl p-4 text-white text-xs font-bold outline-none focus:ring-1 focus:ring-amber-600" />
+                   <button onClick={() => {
+                      if (!newPassword) return alert('Enter a new password!')
+                      if (newPassword !== confirmPassword) return alert('Passwords do not match!')
+                      localStorage.setItem('andalusia_admin_pass', newPassword)
+                      setAdminPassword(newPassword)
+                      setNewPassword('')
+                      setConfirmPassword('')
+                      setShowSettings(false)
+                      alert('Password updated!')
+                   }} className="w-full bg-amber-600 hover:bg-amber-500 text-white py-3 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all">Save New Password</button>
+                </div>
+             )}
+             <button onClick={() => { setIsLoggedIn(false); localStorage.removeItem('andalusia_admin_active'); }} className="flex items-center gap-5 p-5 text-slate-500 hover:text-white font-black text-[10px] uppercase tracking-widest transition-all mt-auto border-t border-slate-900 pt-10 italic"><LogOut className="w-4 h-4" /> Exit Console</button>
             <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden mt-8 text-center text-xs text-slate-500 font-bold uppercase tracking-widest">Close Menu</button>
          </aside>
 

@@ -189,7 +189,7 @@ export default function Home() {
          <section id="location" className="py-24 bg-white dark:bg-slate-950 transition-colors italic">
             <div className="max-w-7xl mx-auto px-6 text-center italic">
                <h4 className="text-amber-600 font-black uppercase tracking-[0.4em] text-xs mb-4">{t('OUR BASE', 'مقرنا الميداني')}</h4>
-               <h5 className="text-4xl md:text-6xl font-black uppercase text-slate-950 dark:text-white tracking-tighter mb-16 italic">{t('Visit Us', 'موقعنا في رشيد')}</h5>
+               <h5 className="text-4xl md:text-6xl font-black uppercase text-slate-950 dark:text-white tracking-tighter mb-16 italic">{t('Visit Us', 'موقعنا')}</h5>
                <div className="w-full h-[500px] rounded-[4rem] overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800">
                   <iframe 
                      title="Andalusia Marine Location"
@@ -227,7 +227,7 @@ export default function Home() {
                      {/* EMAIL */}
                      <div className="flex items-start gap-8 group">
                         <a aria-label="Send us an email" href="mailto:aymanarfa@andulisaamarina.com" className="w-16 h-16 bg-amber-600 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110 hover:bg-amber-500"><Mail className="w-7 h-7" /></a>
-                        <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('EMAIL US', 'راسلنا مباشرة')}</p><a href="mailto:aymanarfa@andulisaamarina.com" className="text-xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all font-sans italic">aymanarfa@andulisaamarina.com</a></div>
+                        <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('EMAIL US', 'راسلنا مباشرة')}</p><a href="mailto:aymanarfa@andulisaamarina.com" className="text-sm md:text-xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all font-sans italic break-all">aymanarfa@andulisaamarina.com</a></div>
                      </div>
 
                      {/* PHONE + WHATSAPP HUB */}
