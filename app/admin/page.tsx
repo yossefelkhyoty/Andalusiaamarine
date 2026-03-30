@@ -149,7 +149,7 @@ export default function Admin() {
       <div className="min-h-screen bg-slate-50 flex flex-col font-sans italic relative">
 
          {/* TOP BAR - all screen sizes */}
-         <div className="flex items-center justify-between px-6 py-4 bg-slate-950 text-white fixed top-0 w-full z-[100] shadow-xl">
+         <div className="flex items-center justify-between px-6 py-4 bg-slate-950 text-white fixed top-0 w-full z-[200] shadow-xl">
             <div className="flex items-center gap-3"><Anchor className="w-6 h-6 text-amber-600" /><span className="text-lg font-black tracking-tighter uppercase italic">ANDALUSIA</span></div>
             <div className="relative">
                <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-slate-800 rounded-xl transition-all flex flex-col gap-1.5 items-center justify-center w-10 h-10">
@@ -176,7 +176,7 @@ export default function Admin() {
                )}
             </div>
          </div>
-         {isSidebarOpen && <div onClick={() => setIsSidebarOpen(false)} className="fixed inset-0 z-[150]" />}
+         {isSidebarOpen && <div onClick={() => setIsSidebarOpen(false)} className="fixed inset-0 z-[90]" />}
 
 
          <main className="flex-grow w-full p-6 md:p-12 lg:p-16 pt-20 italic transition-all overflow-x-hidden">
