@@ -1,38 +1,34 @@
-# 🚢 Andalusia Marine Website
+# Andalusia Marine Website
 **Integrated Marine Solutions: Trading • Maintenance • Shipbuilding**
 
-A professional, high-performance web platform for Andalusia Marine, designed for industrial excellence at sea. This project features a dynamic content management system (CMS) to manage the technical portfolio and service offerings.
+A professional, high-performance web platform for Andalusia Marine, featuring a bilingual CMS to manage the technical portfolio and service offerings.
 
-## 🛠 Tech Stack
-- **Backend:** PHP 8.x
-- **Database:** MySQL
-- **Frontend:** Tailwind CSS, HTML5, JavaScript (ES6)
-- **Frameworks:** Pre-configured with modern design principles and responsive layouts.
-- **Icons:** Google Material Symbols
+## Tech Stack
+- **Framework:** Next.js 14 (App Router)
+- **Database:** PostgreSQL via Neon + Prisma ORM
+- **Media Storage:** Supabase Storage (up to 50MB per file)
+- **Deployment:** Vercel
+- **UI:** Tailwind CSS, Lucide Icons
 
-## 🌟 Key Features
-- **Dynamic Portfolio:** Admin dashboard for uploading images and videos across multiple maritime categories (Ships, Engines, Propulsion, etc.).
-- **Bilingual Support:** Full English (EN) and Arabic (AR) interface with seamless switching.
-- **Admin Dashboard:** Secure portal for the website owner to manage site media without coding knowledge.
-- **Modern Industrial UI:** High-contrast dark/light mode support with a premium aesthetic.
-- **Responsive Design:** Optimized for all devices, from mobile phones to high-resolution desktop monitors.
+## Key Features
+- Dynamic portfolio with image and video support
+- Bilingual interface (Arabic / English) with RTL support
+- Admin dashboard for managing site content without coding
+- Dark / Light mode
+- Fully responsive for all screen sizes
+- Google Maps integration with direct navigation link
 
-## 🚀 Getting Started
-1. **Environment:** Use a local server like XAMPP, WAMP, or Laragon.
-2. **Setup Database:**
-   - Create a database named `andalusia_marine`.
-   - Import the `setup.sql` file provided in the repository.
-3. **Configure:** Update `config.php` with your database credentials.
-4. **Access:** Navigate to `http://localhost/Andalusia_marine` to view the site.
-5. **Manage:** Access the admin panel at `/admin.php` (Default Password: `andalusia2026`).
+## Project Structure
+- `app/page.tsx` — Public landing page
+- `app/admin/page.tsx` — Admin management portal
+- `app/api/projects/` — Projects CRUD API
+- `app/api/settings/` — Admin settings API (password management)
+- `lib/prisma.ts` — Prisma client
+- `lib/supabase.ts` — Supabase storage client
+- `prisma/schema.prisma` — Database schema
 
-## 📁 Project Structure
-- `index.php`: Main public landing page.
-- `admin.php`: Secure management portal for media uploads.
-- `config.php`: Database connection configuration.
-- `setup.sql`: Database schema and initial data.
-- `uploads/`: Directory for dynamic user-uploaded media.
-- `images/`: Static image assets.
+## Admin Access
+The admin panel is accessible at `/admin`. The access key is managed securely through the database and can be changed from within the admin panel at any time.
 
 ---
 © 2026 Andalusia Marine. All rights reserved.
