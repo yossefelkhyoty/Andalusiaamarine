@@ -190,14 +190,14 @@ export default function Home() {
             <div className="max-w-7xl mx-auto px-6 text-center italic">
                <h4 className="text-amber-600 font-black uppercase tracking-[0.4em] text-xs mb-4">{t('OUR BASE', 'مقرنا الميداني')}</h4>
                <h5 className="text-4xl md:text-6xl font-black uppercase text-slate-950 dark:text-white tracking-tighter mb-16 italic">{t('Visit Us', 'موقعنا في رشيد')}</h5>
-               <div className="w-full h-[500px] rounded-[4rem] overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800 grayscale hover:grayscale-0 transition-all duration-1000">
+               <div className="w-full h-[500px] rounded-[4rem] overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800">
                   <iframe 
                      title="Andalusia Marine Location"
                      width="100%" 
                      height="100%" 
                      frameBorder="0" 
                      src="https://maps.google.com/maps?q=31.386801,30.418779&z=15&output=embed"
-                     className="filter invert dark:invert-0 brightness-95 contrast-105"
+                     className="w-full h-full border-0"
                   ></iframe>
                </div>
                <div className="mt-12 flex flex-col items-center gap-6">
