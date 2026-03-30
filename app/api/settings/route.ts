@@ -7,9 +7,12 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url)
     const key = searchParams.get('key')
     if (!key) return NextResponse.json({ error: 'Key required' }, { status: 400 })
-    
-    const setting = await prisma.settings.findUnique({ where: { key } })
-    return NextResponse.json({ value: setting?.value ?? null })
+
+    const result = await prisma.$queryRaw<{ value: string }[]>`
+      SELECT value FROM "Settings" WHERE key = ${key} LIMIT 1
+    `
+    const value = result?.[0]?.value ?? null
+    return NextResponse.json({ value })
   } catch (error: any) {
     return NextResponse.json({ error: 'DB Error', details: error.message }, { status: 500 })
   }
@@ -21,12 +24,12 @@ export async function POST(request: Request) {
     const { key, value } = await request.json()
     if (!key || !value) return NextResponse.json({ error: 'Key and value required' }, { status: 400 })
 
-    const setting = await prisma.settings.upsert({
-      where: { key },
-      update: { value },
-      create: { key, value }
-    })
-    return NextResponse.json({ success: true, setting })
+    await prisma.$executeRaw`
+      INSERT INTO "Settings" (key, value, "updatedAt")
+      VALUES (${key}, ${value}, NOW())
+      ON CONFLICT (key) DO UPDATE SET value = ${value}, "updatedAt" = NOW()
+    `
+    return NextResponse.json({ success: true })
   } catch (error: any) {
     return NextResponse.json({ error: 'DB Error', details: error.message }, { status: 500 })
   }
