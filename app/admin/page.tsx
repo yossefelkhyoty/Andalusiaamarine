@@ -159,24 +159,9 @@ export default function Admin() {
                         <Layout className="w-4 h-4" /> Global Database
                      </button>
                      <div className="border-t border-slate-800">
-                        <button onClick={() => setShowSettings(!showSettings)} className="w-full flex items-center gap-4 px-6 py-4 text-slate-300 hover:text-amber-400 hover:bg-slate-800 transition-all text-[11px] font-black uppercase tracking-widest">
+                        <button onClick={() => { setShowSettings(true); setIsSidebarOpen(false); }} className="w-full flex items-center gap-4 px-6 py-4 text-slate-300 hover:text-amber-400 hover:bg-slate-800 transition-all text-[11px] font-black uppercase tracking-widest">
                            <KeyRound className="w-4 h-4" /> Change Password
                         </button>
-                        {showSettings && (
-                           <div className="px-6 pb-4 space-y-3">
-                              <input type="password" placeholder="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full bg-slate-800 rounded-xl p-3 text-white text-xs font-bold outline-none focus:ring-1 focus:ring-amber-600" />
-                              <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="w-full bg-slate-800 rounded-xl p-3 text-white text-xs font-bold outline-none focus:ring-1 focus:ring-amber-600" />
-                              <button onClick={async () => {
-                                 if (!newPassword) return alert('Enter a new password!')
-                                 if (newPassword !== confirmPassword) return alert('Passwords do not match!')
-                                 try {
-                                    const res = await fetch('/api/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: 'admin_password', value: newPassword }) })
-                                    if (!res.ok) throw new Error()
-                                    setAdminPassword(newPassword); setNewPassword(''); setConfirmPassword(''); setShowSettings(false); setIsSidebarOpen(false); alert('Password updated!')
-                                 } catch { alert('Failed to save!') }
-                              }} className="w-full bg-amber-600 hover:bg-amber-500 text-white py-3 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all">Save</button>
-                           </div>
-                        )}
                      </div>
                      <div className="border-t border-slate-800">
                         <button onClick={() => { setIsLoggedIn(false); localStorage.removeItem('andalusia_admin_active'); setIsSidebarOpen(false); }} className="w-full flex items-center gap-4 px-6 py-4 text-red-400 hover:bg-red-950 transition-all text-[11px] font-black uppercase tracking-widest">
@@ -235,6 +220,44 @@ export default function Admin() {
                </div>
             </div>
          </main>
+
+         {/* PASSWORD CHANGE MODAL */}
+         {showSettings && (
+            <div className="fixed inset-0 z-[300] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-6">
+               <div className="w-full max-w-md bg-slate-900 rounded-[3rem] p-10 shadow-2xl border border-slate-700 space-y-6">
+                  <div className="flex items-center justify-between mb-2">
+                     <div className="flex items-center gap-4">
+                        <div className="p-3 bg-amber-600 rounded-2xl"><KeyRound className="w-5 h-5 text-white" /></div>
+                        <h3 className="text-white font-black uppercase tracking-widest text-sm">Change Password</h3>
+                     </div>
+                     <button onClick={() => { setShowSettings(false); setNewPassword(''); setConfirmPassword(''); }} className="p-2 text-slate-500 hover:text-white hover:bg-slate-800 rounded-xl transition-all"><X className="w-5 h-5" /></button>
+                  </div>
+                  <div className="space-y-4">
+                     <div>
+                        <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-2 block">New Password</label>
+                        <input type="password" placeholder="Enter new password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full bg-slate-800 rounded-2xl p-5 text-white font-bold outline-none focus:ring-2 focus:ring-amber-600 transition-all" autoFocus />
+                     </div>
+                     <div>
+                        <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-2 block">Confirm Password</label>
+                        <input type="password" placeholder="Confirm new password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="w-full bg-slate-800 rounded-2xl p-5 text-white font-bold outline-none focus:ring-2 focus:ring-amber-600 transition-all" />
+                     </div>
+                  </div>
+                  <div className="flex gap-4 pt-2">
+                     <button onClick={() => { setShowSettings(false); setNewPassword(''); setConfirmPassword(''); }} className="flex-1 py-4 rounded-2xl font-black text-[11px] uppercase tracking-widest border border-slate-700 text-slate-400 hover:text-white hover:border-slate-500 transition-all">Cancel</button>
+                     <button onClick={async () => {
+                        if (!newPassword) return alert('Enter a new password!')
+                        if (newPassword !== confirmPassword) return alert('Passwords do not match!')
+                        try {
+                           const res = await fetch('/api/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: 'admin_password', value: newPassword }) })
+                           if (!res.ok) throw new Error()
+                           setAdminPassword(newPassword); setNewPassword(''); setConfirmPassword(''); setShowSettings(false);
+                           alert('Password updated successfully!')
+                        } catch { alert('Failed to save password!') }
+                     }} className="flex-1 py-4 rounded-2xl font-black text-[11px] uppercase tracking-widest bg-amber-600 hover:bg-amber-500 text-white transition-all shadow-xl shadow-amber-600/20">Save Password</button>
+                  </div>
+               </div>
+            </div>
+         )}
       </div>
    )
 }
