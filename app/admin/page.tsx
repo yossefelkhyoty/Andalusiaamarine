@@ -142,10 +142,10 @@ export default function Admin() {
    }
 
    return (
-      <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row font-sans italic relative">
+      <div className="min-h-screen bg-slate-50 flex flex-col font-sans italic relative">
 
-         {/* MOBILE TOP BAR - with dropdown menu */}
-         <div className="lg:hidden flex items-center justify-between px-6 py-4 bg-slate-950 text-white fixed top-0 w-full z-[100] shadow-xl">
+         {/* TOP BAR - all screen sizes */}
+         <div className="flex items-center justify-between px-6 py-4 bg-slate-950 text-white fixed top-0 w-full z-[100] shadow-xl">
             <div className="flex items-center gap-3"><Anchor className="w-6 h-6 text-amber-600" /><span className="text-lg font-black tracking-tighter uppercase italic">ANDALUSIA</span></div>
             <div className="relative">
                <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-slate-800 rounded-xl transition-all flex flex-col gap-1.5 items-center justify-center w-10 h-10">
@@ -187,33 +187,10 @@ export default function Admin() {
                )}
             </div>
          </div>
-         {isSidebarOpen && <div onClick={() => setIsSidebarOpen(false)} className="lg:hidden fixed inset-0 z-[150]" />}
-
-         {/* DESKTOP SIDEBAR ONLY */}
-         <aside className="hidden lg:flex w-72 bg-slate-950 text-white p-10 flex-col fixed inset-y-0 z-[110] italic shadow-2xl h-screen">
-            <div className="flex items-center gap-3 mb-20 px-2"><Anchor className="w-8 h-8 text-amber-600" /><h2 className="text-xl font-black uppercase tracking-tighter italic">ANDALUSIA</h2></div>
-            <nav className="space-y-4 flex-grow italic"><button className="w-full flex items-center gap-5 p-5 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all bg-amber-600 text-white shadow-xl italic"><Layout className="w-4 h-4" /> Global Database</button></nav>
-            <button onClick={() => setShowSettings(!showSettings)} className="flex items-center gap-5 p-5 text-slate-500 hover:text-amber-400 font-black text-[10px] uppercase tracking-widest transition-all italic"><KeyRound className="w-4 h-4" /> Change Password</button>
-            {showSettings && (
-               <div className="bg-slate-900 rounded-2xl p-6 space-y-4">
-                  <input type="password" placeholder="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full bg-slate-800 rounded-xl p-4 text-white text-xs font-bold outline-none focus:ring-1 focus:ring-amber-600" />
-                  <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="w-full bg-slate-800 rounded-xl p-4 text-white text-xs font-bold outline-none focus:ring-1 focus:ring-amber-600" />
-                  <button onClick={async () => {
-                     if (!newPassword) return alert('Enter a new password!')
-                     if (newPassword !== confirmPassword) return alert('Passwords do not match!')
-                     try {
-                        const res = await fetch('/api/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: 'admin_password', value: newPassword }) })
-                        if (!res.ok) throw new Error()
-                        setAdminPassword(newPassword); setNewPassword(''); setConfirmPassword(''); setShowSettings(false); alert('Password updated!')
-                     } catch { alert('Failed to save!') }
-                  }} className="w-full bg-amber-600 hover:bg-amber-500 text-white py-3 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all">Save New Password</button>
-               </div>
-            )}
-            <button onClick={() => { setIsLoggedIn(false); localStorage.removeItem('andalusia_admin_active'); }} className="flex items-center gap-5 p-5 text-slate-500 hover:text-white font-black text-[10px] uppercase tracking-widest transition-all mt-auto border-t border-slate-900 pt-10 italic"><LogOut className="w-4 h-4" /> Exit Console</button>
-         </aside>
+         {isSidebarOpen && <div onClick={() => setIsSidebarOpen(false)} className="fixed inset-0 z-[150]" />}
 
 
-         <main className="flex-grow p-6 md:p-12 lg:p-16 pt-20 lg:pt-16 italic transition-all overflow-x-hidden">
+         <main className="flex-grow w-full p-6 md:p-12 lg:p-16 pt-20 italic transition-all overflow-x-hidden">
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-8 italic"><div><h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-amber-600 mb-2">Maritime Inventory Hub</h3><h4 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-slate-950">System Console</h4></div><a href="/" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-950 border-b border-slate-200 pb-1 italic transition-all">Go Live</a></header>
 
             {isSyncing && <div className="fixed bottom-6 lg:bottom-10 right-6 lg:right-10 bg-slate-950 text-white px-6 md:px-8 py-3 md:py-4 rounded-full z-[120] shadow-2xl border border-amber-600/30 flex items-center gap-4 animate-bounce"><Loader2 className="w-5 h-5 text-amber-500 animate-spin" /><span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest">Global Syncing...</span></div>}
