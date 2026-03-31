@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
        allow: '/',
        disallow: '/admin', // Protect admin area from search results
     },
-    sitemap: 'https://andalusiaamarine.vercel.app/sitemap.xml',
+    sitemap: 'https://andalusiaamarine.com/sitemap.xml',
   }
 }

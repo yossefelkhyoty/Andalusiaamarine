@@ -21,8 +21,29 @@ const alexandria = Alexandria({
 });
 
 export const metadata: Metadata = {
-  title: "Andalusia Marine | Excellence in Marine Engineering",
-  description: "Specialized in Marine Engine Maintenance, Shipbuilding, and Equipment Trading. Global standards in naval architecture and propulsion systems.",
+  title: "Andalusia Marine | صيانة محركات وبناء سفن - أندلسية مارين",
+  description: "Andalusia Marine specializes in Marine Engine Maintenance (Caterpillar, Cummins), Shipbuilding, and Equipment Trading in Rosetta, Egypt. صيانة المحركات البحرية وبناء السفن بأحدث المعايير الهندسية في رشيد، مصر.",
+  keywords: ["marine maintenance", "shipbuilding", "Rosetta", "Egypt", "Caterpillar", "Cummins", "marine engines", "صيانة محركات", "بناء سفن", "رشيد", "البحيرة", "معدات بحرية"],
+  authors: [{ name: "Andalusia Marine" }],
+  viewport: "width=device-width, initial-scale=1",
+  robots: "index, follow",
+  alternates: {
+    canonical: "https://andalusiaamarine.com",
+  },
+  openGraph: {
+    title: "Andalusia Marine | excellence in Marine Engineering",
+    description: "Specialized in Marine Engine Maintenance, Shipbuilding, and Equipment Trading in Egypt.",
+    url: "https://andalusiaamarine.com",
+    siteName: "Andalusia Marine",
+    locale: "ar_EG",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Andalusia Marine | Excellence in Marine Engineering",
+    description: "Specialized in Marine Engine Maintenance, Shipbuilding, and Equipment Trading in Egypt.",
+  },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -31,8 +52,47 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="ar" className="scroll-smooth">
       <body className={`${outfit.className} ${alexandria.className} antialiased`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              "name": "Andalusia Marine",
+              "image": "https://andalusiaamarine.com/images/logo.png",
+              "@id": "https://andalusiaamarine.com",
+              "url": "https://andalusiaamarine.com",
+              "telephone": "+201030067465",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Rosetta",
+                "addressLocality": "Beheira",
+                "addressCountry": "EG"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 31.386801,
+                "longitude": 30.418779
+              },
+              "openingHoursSpecification": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                  "Sunday"
+                ],
+                "opens": "08:00",
+                "closes": "22:00"
+              }
+            })
+          }}
+        />
         {children}
       </body>
     </html>
