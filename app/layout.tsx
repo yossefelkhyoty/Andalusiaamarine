@@ -25,7 +25,6 @@ export const metadata: Metadata = {
   description: "Andalusia Marine specializes in Marine Engine Maintenance (Caterpillar, Cummins), Shipbuilding, and Equipment Trading in Rosetta, Egypt. صيانة المحركات البحرية وبناء السفن بأحدث المعايير الهندسية في رشيد، مصر.",
   keywords: ["marine maintenance", "shipbuilding", "Rosetta", "Egypt", "Caterpillar", "Cummins", "marine engines", "صيانة محركات", "بناء سفن", "رشيد", "البحيرة", "معدات بحرية"],
   authors: [{ name: "Andalusia Marine" }],
-  viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
   alternates: {
     canonical: "https://andalusiaamarine.com",
@@ -44,6 +43,11 @@ export const metadata: Metadata = {
     description: "Specialized in Marine Engine Maintenance, Shipbuilding, and Equipment Trading in Egypt.",
   },
   manifest: "/manifest.json",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
