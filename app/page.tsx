@@ -42,22 +42,22 @@ export default function Home() {
 
          {/* NAVIGATION */}
          <nav className="fixed top-0 w-full z-50 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-b border-slate-100 dark:border-slate-800 transition-all shadow-lg shadow-slate-950/5">
-            <div className="flex justify-between items-center max-w-7xl mx-auto px-6 py-4 md:py-6">
+            <div className="flex justify-between items-center max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6">
                <div
                   onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                  className="flex items-center gap-4 cursor-pointer hover:opacity-80 transition-all flex-shrink-0">
+                  className="flex items-center gap-2 md:gap-4 cursor-pointer hover:opacity-80 transition-all flex-shrink-0">
                   <Image
                      src="/images/logo.png"
                      alt="Logo"
                      width={64}
                      height={64}
                      priority
-                     className="h-10 md:h-14 lg:h-16 w-auto"
+                     className="h-8 sm:h-10 md:h-14 lg:h-16 w-auto"
                   />
-                  <h1 className="text-xl md:text-2xl lg:text-3xl font-black uppercase tracking-tighter text-slate-950 dark:text-white whitespace-nowrap">Andalusia Marine</h1>
+                  <h1 className="text-sm sm:text-xl md:text-2xl lg:text-3xl font-black uppercase tracking-tighter text-slate-950 dark:text-white whitespace-nowrap">Andalusia Marine</h1>
                </div>
 
-               <div className="flex items-center gap-8 lg:gap-12">
+               <div className="flex items-center gap-3 md:gap-8 lg:gap-12">
                   <div className="hidden lg:flex gap-8 font-black uppercase text-[11px] lg:text-[12px] tracking-widest text-slate-800 dark:text-slate-200">
                      <a href="#services" className="hover:text-amber-600 transition-colors uppercase whitespace-nowrap">{t('Services', 'خدماتنا')}</a>
                      <a href="#portfolio" className="hover:text-amber-600 transition-colors uppercase whitespace-nowrap">{t('Portfolio', 'المعرض')}</a>
@@ -66,7 +66,10 @@ export default function Home() {
                      <a href="#contact" className="hover:text-amber-600 transition-colors uppercase whitespace-nowrap">{t('Contact', 'تواصل')}</a>
                   </div>
                   <div className="flex items-center gap-4">
-                     <button aria-label="Toggle Language" onClick={() => setLang(lang === 'en' ? 'ar' : 'en')} className="bg-slate-100 dark:bg-slate-800 px-5 py-2.5 rounded-full text-[11px] font-black border border-slate-200 dark:border-slate-700 hover:border-amber-600 transition-all dark:text-white tracking-widest">{lang.toUpperCase()}</button>
+                     <div className="flex bg-slate-100 dark:bg-slate-800 rounded-full border border-slate-200 dark:border-slate-700 p-1">
+                        <button aria-label="Arabic Language" onClick={() => setLang('ar')} className={`px-4 py-1.5 rounded-full text-[11px] font-black tracking-widest transition-all ${lang === 'ar' ? 'bg-amber-600 text-white shadow-md' : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'}`}>AR</button>
+                        <button aria-label="English Language" onClick={() => setLang('en')} className={`px-4 py-1.5 rounded-full text-[11px] font-black tracking-widest transition-all ${lang === 'en' ? 'bg-amber-600 text-white shadow-md' : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'}`}>EN</button>
+                     </div>
                      <button aria-label="Toggle Dark Mode" onClick={() => setIsDark(!isDark)} className="p-3 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-all hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-950 dark:text-white">
                         {isDark ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5" />}
                      </button>
