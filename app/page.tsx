@@ -303,14 +303,24 @@ export default function Home() {
                      </div>
                   </div>
                   <div className="bg-white dark:bg-slate-800 p-12 md:p-16 rounded-[4rem] shadow-2xl border border-slate-100 dark:border-slate-700 italic">
-                     <form className="space-y-8 italic">
+                     <form onSubmit={(e) => {
+                        e.preventDefault();
+                        const formData = new FormData(e.currentTarget);
+                        const name = formData.get('contact_name');
+                        const email = formData.get('contact_email');
+                        const details = formData.get('contact_details');
+                        
+                        const subject = encodeURIComponent(`New Inquiry from ${name}`);
+                        const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${details}`);
+                        window.location.href = `mailto:aymanarafa@andalusiaamarine.com?subject=${subject}&body=${body}`;
+                     }} className="space-y-8 italic">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left rtl:text-right italic">
-                           <div className="space-y-2"><label htmlFor="contact_name" className="text-[10px] font-black uppercase text-slate-400 px-4 tracking-widest">{t('NAME', 'الاسم')}</label><input id="contact_name" className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-6 focus:ring-1 focus:ring-amber-600 outline-none transition-all font-bold dark:text-white italic" /></div>
-                           <div className="space-y-2"><label htmlFor="contact_email" className="text-[10px] font-black uppercase text-slate-400 px-4 tracking-widest">{t('EMAIL', 'الإيميل')}</label><input id="contact_email" type="email" className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-6 focus:ring-1 focus:ring-amber-600 outline-none transition-all font-bold dark:text-white italic" /></div>
+                           <div className="space-y-2"><label htmlFor="contact_name" className="text-[10px] font-black uppercase text-slate-400 px-4 tracking-widest">{t('NAME', 'الاسم')}</label><input id="contact_name" name="contact_name" required className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-6 focus:ring-1 focus:ring-amber-600 outline-none transition-all font-bold dark:text-white italic" /></div>
+                           <div className="space-y-2"><label htmlFor="contact_email" className="text-[10px] font-black uppercase text-slate-400 px-4 tracking-widest">{t('EMAIL', 'الإيميل')}</label><input id="contact_email" name="contact_email" type="email" required className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-6 focus:ring-1 focus:ring-amber-600 outline-none transition-all font-bold dark:text-white italic" /></div>
                         </div>
                         <div className="space-y-2 text-left rtl:text-right italic">
                            <label htmlFor="contact_details" className="text-[10px] font-black uppercase text-slate-400 px-4 tracking-widest">{t('DETAILS', 'التفاصيل')}</label>
-                           <textarea id="contact_details" rows={4} className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-6 focus:ring-1 focus:ring-amber-600 outline-none transition-all resize-none font-bold dark:text-white italic"></textarea>
+                           <textarea id="contact_details" name="contact_details" required rows={4} className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-6 focus:ring-1 focus:ring-amber-600 outline-none transition-all resize-none font-bold dark:text-white italic"></textarea>
                         </div>
                         <button type="submit" className="w-full bg-amber-600 hover:bg-amber-500 text-white py-8 rounded-[3rem] font-black uppercase text-xs tracking-[0.3em] transition-all shadow-2xl shadow-amber-600/30 flex items-center justify-center gap-4 italic">{t('SEND REQUEST', 'إرسال الطلب')} <LucideArrowRight className="w-5 h-5" /></button>
                      </form>
