@@ -264,8 +264,8 @@ export default function Home() {
 
                         {/* EMAIL */}
                         <div className="flex items-start gap-8 group">
-                           <a aria-label="Send us an email" href="mailto:aymanarfa@andulisaamarina.com" className="w-16 h-16 bg-amber-600 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110 hover:bg-amber-500"><Mail className="w-7 h-7" /></a>
-                           <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('EMAIL US', 'راسلنا مباشرة')}</p><a href="mailto:aymanarfa@andulisaamarina.com" className="text-sm md:text-xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all font-sans italic break-all">aymanarfa@andulisaamarina.com</a></div>
+                           <a aria-label="Send us an email" href="mailto:aymanarafa@andalusiaamarine.com" className="w-16 h-16 bg-amber-600 text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform group-hover:scale-110 hover:bg-amber-500"><Mail className="w-7 h-7" /></a>
+                           <div><p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('EMAIL US', 'راسلنا مباشرة')}</p><a href="mailto:aymanarafa@andalusiaamarine.com" className="text-sm md:text-xl font-black text-slate-950 dark:text-white hover:text-amber-600 transition-all font-sans italic break-all">aymanarafa@andalusiaamarine.com</a></div>
                         </div>
 
                         {/* PHONE + WHATSAPP HUB */}
