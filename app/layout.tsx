@@ -29,6 +29,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://andalusiaamarine.com",
   },
+  icons: {
+    icon: "/images/logo.png",
+    shortcut: "/images/logo.png",
+    apple: "/images/logo.png",
+  },
   openGraph: {
     title: "Andalusia Marine | excellence in Marine Engineering",
     description: "Specialized in Marine Engine Maintenance, Shipbuilding, and Equipment Trading in Egypt.",
