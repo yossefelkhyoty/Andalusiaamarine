@@ -303,16 +303,40 @@ export default function Home() {
                      </div>
                   </div>
                   <div className="bg-white dark:bg-slate-800 p-12 md:p-16 rounded-[4rem] shadow-2xl border border-slate-100 dark:border-slate-700 italic">
-                     <form onSubmit={(e) => {
+                     <form onSubmit={async (e) => {
                         e.preventDefault();
+                        const btn = e.currentTarget.querySelector('button');
+                        if (btn) btn.disabled = true;
+                        
                         const formData = new FormData(e.currentTarget);
                         const name = formData.get('contact_name');
                         const email = formData.get('contact_email');
                         const details = formData.get('contact_details');
                         
-                        const subject = encodeURIComponent(`New Inquiry from ${name}`);
-                        const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${details}`);
-                        window.location.href = `mailto:aymanarafa@andalusiaamarine.com?subject=${subject}&body=${body}`;
+                        try {
+                           const response = await fetch('https://api.web3forms.com/submit', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                              body: JSON.stringify({
+                                 access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
+                                 name: name,
+                                 email: email,
+                                 message: details,
+                                 subject: `New Inquiry from ${name}`
+                              })
+                           });
+                           const result = await response.json();
+                           if (result.success) {
+                              alert(t('Message sent successfully!', 'تم إرسال رسالتك بنجاح!'));
+                              (e.target as HTMLFormElement).reset();
+                           } else {
+                              alert(t('Error sending message. Please try again.', 'حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.'));
+                           }
+                        } catch (err) {
+                           alert(t('Network error. Please try again.', 'خطأ في الشبكة. يرجى المحاولة مرة أخرى.'));
+                        } finally {
+                           if (btn) btn.disabled = false;
+                        }
                      }} className="space-y-8 italic">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left rtl:text-right italic">
                            <div className="space-y-2"><label htmlFor="contact_name" className="text-[10px] font-black uppercase text-slate-400 px-4 tracking-widest">{t('NAME', 'الاسم')}</label><input id="contact_name" name="contact_name" required className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl p-6 focus:ring-1 focus:ring-amber-600 outline-none transition-all font-bold dark:text-white italic" /></div>
@@ -333,30 +357,139 @@ export default function Home() {
             <p className="text-[10px] font-black uppercase tracking-[0.3em] italic">© 2026 ANDALUSIA MARINE – EXCELLENCE AT SEA.</p>
          </footer>
          {selectedItem && (
-            <div className="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-2xl flex items-center justify-center p-4 md:p-12 animate-in fade-in duration-500">
-               <button onClick={(e) => { e.stopPropagation(); setSelectedItem(null); }} className="absolute top-10 right-10 p-4 bg-white/10 hover:bg-white/20 rounded-full transition-all text-white z-[110]"><X className="w-8 h-8" /></button>
-               <div className="relative w-full max-w-6xl aspect-video rounded-[3rem] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-500">
-                  {selectedItem.media_type === 'video' ? (
-                     <video src={selectedItem.media_path} className="w-full h-full object-contain bg-black" autoPlay controls muted playsInline />
-                  ) : (
-                     isRemoteSrc(selectedItem.media_path) ? (
-                        <img
-                           src={selectedItem.media_path}
-                           alt={selectedItem.title_en}
-                           className="w-full h-full object-contain bg-black"
-                           loading="lazy"
-                           decoding="async"
-                        />
+            <div className="fixed inset-0 z-[100] bg-slate-950/98 backdrop-blur-3xl flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-500 overflow-y-auto">
+               <button 
+                  onClick={(e) => { e.stopPropagation(); setSelectedItem(null); }} 
+                  className="fixed top-6 right-6 md:top-10 md:right-10 p-4 bg-white/10 hover:bg-amber-600 rounded-full transition-all text-white z-[120] shadow-2xl hover:scale-110"
+               >
+                  <X className="w-6 h-6 md:w-8 md:h-8" />
+               </button>
+               
+               <div className="relative w-full max-w-7xl bg-white dark:bg-slate-900 rounded-[3rem] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-500 flex flex-col lg:flex-row min-h-[80vh] lg:h-[85vh]">
+                  {/* MEDIA SIDE */}
+                  <div className="w-full lg:w-3/5 bg-black relative flex items-center justify-center overflow-hidden">
+                     {selectedItem.media_type === 'video' ? (
+                        <video src={selectedItem.media_path} className="w-full h-full object-contain" autoPlay controls muted playsInline />
                      ) : (
-                        <Image
-                           src={selectedItem.media_path}
-                           alt={selectedItem.title_en}
-                           fill
-                           sizes="(min-width: 1280px) 1152px, 100vw"
-                           className="object-contain bg-black"
-                        />
-                     )
-                  )}
+                        isRemoteSrc(selectedItem.media_path) ? (
+                           <img
+                              src={selectedItem.media_path}
+                              alt={selectedItem.title_en}
+                              className="w-full h-full object-contain"
+                              loading="lazy"
+                           />
+                        ) : (
+                           <Image
+                              src={selectedItem.media_path}
+                              alt={selectedItem.title_en}
+                              fill
+                              sizes="(min-width: 1280px) 1152px, 100vw"
+                              className="object-contain"
+                           />
+                        )
+                     )}
+                     <div className="absolute top-6 left-6 flex flex-col gap-2">
+                        <span className="bg-amber-600 text-white px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl">
+                           {t(selectedItem.orange_label_en, selectedItem.orange_label_ar)}
+                        </span>
+                     </div>
+                  </div>
+
+                  {/* FORM SIDE */}
+                  <div className="w-full lg:w-2/5 p-8 md:p-12 flex flex-col justify-between overflow-y-auto border-t lg:border-t-0 lg:border-l border-slate-100 dark:border-slate-800">
+                     <div>
+                        <h2 className="text-3xl md:text-4xl font-black text-slate-950 dark:text-white uppercase leading-tight mb-4 tracking-tighter italic">
+                           {t(selectedItem.title_en, selectedItem.title_ar)}
+                        </h2>
+                        <p className="text-slate-500 dark:text-slate-400 font-medium text-lg leading-relaxed mb-10 italic">
+                           {t(selectedItem.desc_en, selectedItem.desc_ar)}
+                        </p>
+
+                        <div className="bg-slate-50 dark:bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-800">
+                           <h3 className="text-amber-600 font-black text-xs uppercase tracking-[0.3em] mb-8 italic">
+                              {t('Inquiry about this product', 'تواصل بشأن هذا المنتج')}
+                           </h3>
+                           
+                           <form onSubmit={async (e) => {
+                              e.preventDefault();
+                              const btn = e.currentTarget.querySelector('button');
+                              if (btn) btn.disabled = true;
+                              
+                              const formData = new FormData(e.currentTarget);
+                              try {
+                                 const response = await fetch('https://api.web3forms.com/submit', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                                    body: JSON.stringify({
+                                       access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
+                                       name: formData.get('name'),
+                                       email: formData.get('email'),
+                                       phone: formData.get('phone'),
+                                       message: `Inquiry about: ${selectedItem.title_en} (${selectedItem.title_ar})\n\n${formData.get('message')}`,
+                                       product_name: `${selectedItem.title_en} / ${selectedItem.title_ar}`,
+                                       product_image: selectedItem.media_path,
+                                       subject: `New Product Inquiry: ${selectedItem.title_en} (${selectedItem.title_ar})`
+                                    })
+                                 });
+                                 const result = await response.json();
+                                 if (result.success) {
+                                    alert(t('Thank you! Your inquiry has been sent.', 'شكراً لك! تم إرسال طلبك بنجاح.'));
+                                    (e.target as HTMLFormElement).reset();
+                                    setSelectedItem(null);
+                                 } else {
+                                    alert(t('Something went wrong. Please try again.', 'حدث خطأ ما. يرجى المحاولة مرة أخرى.'));
+                                 }
+                              } catch (err) {
+                                 alert(t('Network error. Please check your connection.', 'خطأ في الشبكة. يرجى التحقق من اتصالك.'));
+                              } finally {
+                                 if (btn) btn.disabled = false;
+                              }
+                           }} className="space-y-4">
+                              <div className="space-y-2">
+                                 <input 
+                                    name="name" 
+                                    placeholder={t('Your Name', 'الاسم بالكامل')} 
+                                    required 
+                                    className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 focus:ring-2 focus:ring-amber-600 outline-none transition-all font-bold dark:text-white text-sm" 
+                                 />
+                              </div>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                 <input 
+                                    name="email" 
+                                    type="email" 
+                                    placeholder={t('Email', 'البريد الإلكتروني')} 
+                                    required 
+                                    className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 focus:ring-2 focus:ring-amber-600 outline-none transition-all font-bold dark:text-white text-sm" 
+                                 />
+                                 <input 
+                                    name="phone" 
+                                    type="tel" 
+                                    placeholder={t('Phone', 'رقم الهاتف')} 
+                                    required 
+                                    className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 focus:ring-2 focus:ring-amber-600 outline-none transition-all font-bold dark:text-white text-sm" 
+                                 />
+                              </div>
+                              <textarea 
+                                 name="message" 
+                                 placeholder={t('Message Details', 'تفاصيل الرسالة...')} 
+                                 required 
+                                 rows={3} 
+                                 className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 focus:ring-2 focus:ring-amber-600 outline-none transition-all resize-none font-bold dark:text-white text-sm"
+                              ></textarea>
+                              
+                              <button type="submit" className="w-full bg-amber-600 hover:bg-slate-950 dark:hover:bg-white dark:hover:text-slate-950 text-white py-6 rounded-2xl font-black uppercase text-[11px] tracking-widest transition-all shadow-xl shadow-amber-600/20 flex items-center justify-center gap-3 italic group">
+                                 {t('SEND INQUIRY', 'إرسال الاستفسار')} 
+                                 <SendIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                              </button>
+                           </form>
+                        </div>
+                     </div>
+
+                     <div className="mt-8 pt-8 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between opacity-60">
+                        <p className="text-[10px] font-black uppercase tracking-widest">{t('Direct Response Guaranteed', 'نضمن لك الرد المباشر')}</p>
+                        <Ship className="w-5 h-5 text-amber-600" />
+                     </div>
+                  </div>
                </div>
             </div>
          )}
